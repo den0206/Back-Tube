@@ -19,7 +19,7 @@ DerivedData
 # CocoaPod
 Pods/*
 
-Helpers/sec.swift
+Back-Tube/Helpers/sec.swift
 
 # others
 *.swp
