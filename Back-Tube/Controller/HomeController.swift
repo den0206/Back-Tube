@@ -8,6 +8,8 @@
 
 import UIKit
 
+private let reuseIdentifer = "VideoCell"
+
 class HomeController: UICollectionViewController{
     
     init() {
@@ -23,6 +25,8 @@ class HomeController: UICollectionViewController{
         
         configureNav()
         configureUI()
+        
+        
         
     }
     
@@ -50,11 +54,48 @@ class HomeController: UICollectionViewController{
     }
     
     private func configureUI() {
-         collectionView.backgroundColor = .white
-         
-     }
+        
+//        if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+//            flowLayout.scrollDirection = .horizontal
+//            flowLayout.minimumLineSpacing = 0
+//        }
+        
+        collectionView.backgroundColor = .white
+        collectionView.isScrollEnabled = true
+        
+        collectionView.register(VideoCell.self, forCellWithReuseIdentifier: reuseIdentifer)
+        
+        
+        
+    }
     
     
+}
+
+extension HomeController {
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        return 5
+    }
     
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifer, for: indexPath) as! VideoCell
+        return cell
+    }
+}
+
+extension HomeController : UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let height = (view.frame.width - 16 - 16) * 9 / 16
+        
+        return CGSize(width: view.frame.width, height: height + 16 + 68)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
     
 }
