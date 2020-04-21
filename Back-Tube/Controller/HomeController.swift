@@ -7,10 +7,15 @@
 //
 
 import UIKit
+import YoutubeKit
 
 private let reuseIdentifer = "VideoCell"
 
 class HomeController: UICollectionViewController{
+    
+    //MARK: - Vars
+    
+    private  var videos = [Video]()
     
     init() {
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
@@ -26,8 +31,8 @@ class HomeController: UICollectionViewController{
         configureNav()
         configureUI()
         
-        
-        
+        fetchChart()
+      
     }
     
  
@@ -69,6 +74,24 @@ class HomeController: UICollectionViewController{
         
     }
     
+    //MARK: - API
+    
+    private func fetchChart() {
+        let request = VideoListRequest(part: [.id, .statistics, .snippet], filter: .chart, maxResults: 10, regionCode: "JP")
+        
+        // Send a request.
+        YoutubeAPI.shared.send(request) { result in
+            switch result {
+            case .success(let response):
+                for video in response.items {
+                    self.videos.append(video)
+                    print(video.snippet?.title )
+                }
+            case .failed(let error):
+                print(error)
+            }
+        }
+    }
     
 }
 
