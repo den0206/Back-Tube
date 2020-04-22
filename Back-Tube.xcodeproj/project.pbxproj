@@ -16,6 +16,8 @@
 		3A4381A1244DCD7B009DE6F9 /* sec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4381A0244DCD7B009DE6F9 /* sec.swift */; };
 		3AC9FA15244F0D8E00CE51F8 /* VideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC9FA14244F0D8E00CE51F8 /* VideoCell.swift */; };
 		3AD3EAE224505DEB00409967 /* VideoLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD3EAE124505DEB00409967 /* VideoLauncher.swift */; };
+		3AD3EAE4245086C100409967 /* MainTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD3EAE3245086C100409967 /* MainTabController.swift */; };
+		3AD3EAE62450880900409967 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD3EAE52450880900409967 /* SearchViewController.swift */; };
 		E0E737B6ACC7E8CE8A02A802 /* Pods_Back_Tube.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93438D0EE906C13D97D6A08D /* Pods_Back_Tube.framework */; };
 /* End PBXBuildFile section */
 
@@ -32,6 +34,8 @@
 		3A4381A0244DCD7B009DE6F9 /* sec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sec.swift; sourceTree = "<group>"; };
 		3AC9FA14244F0D8E00CE51F8 /* VideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCell.swift; sourceTree = "<group>"; };
 		3AD3EAE124505DEB00409967 /* VideoLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoLauncher.swift; sourceTree = "<group>"; };
+		3AD3EAE3245086C100409967 /* MainTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabController.swift; sourceTree = "<group>"; };
+		3AD3EAE52450880900409967 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		4C6937ED7233D25A5B37CC85 /* Pods-Back-Tube.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Back-Tube.release.xcconfig"; path = "Target Support Files/Pods-Back-Tube/Pods-Back-Tube.release.xcconfig"; sourceTree = "<group>"; };
 		93438D0EE906C13D97D6A08D /* Pods_Back_Tube.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Back_Tube.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -84,7 +88,9 @@
 		3A1276FF244DBDEE003A6750 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				3AD3EAE3245086C100409967 /* MainTabController.swift */,
 				3A1276FD244DBDD9003A6750 /* HomeController.swift */,
+				3AD3EAE52450880900409967 /* SearchViewController.swift */,
 				3AD3EAE124505DEB00409967 /* VideoLauncher.swift */,
 			);
 			path = Controller;
@@ -240,6 +246,8 @@
 			files = (
 				3A127701244DC041003A6750 /* Extension.swift in Sources */,
 				3AC9FA15244F0D8E00CE51F8 /* VideoCell.swift in Sources */,
+				3AD3EAE4245086C100409967 /* MainTabController.swift in Sources */,
+				3AD3EAE62450880900409967 /* SearchViewController.swift in Sources */,
 				3A4381A1244DCD7B009DE6F9 /* sec.swift in Sources */,
 				3AD3EAE224505DEB00409967 /* VideoLauncher.swift in Sources */,
 				3A1276FE244DBDD9003A6750 /* HomeController.swift in Sources */,

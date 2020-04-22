@@ -32,7 +32,7 @@ class VideoLauncher: UIViewController {
         
         player = YTSwiftyPlayer(
                     frame: CGRect(x: 0, y: 0, width: 640, height: 480),
-                    playerVars: [.videoID(videoId)])
+                    playerVars: [.videoID(videoId), VideoEmbedParameter.showRelatedVideo(false)])
 
         // Enable auto playback when video is loaded
         player.autoplay = true

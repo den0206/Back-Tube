@@ -81,7 +81,9 @@ class HomeController: UICollectionViewController{
     //MARK: - API
     
     private func fetchChart() {
-        let request = VideoListRequest(part: [.id, .snippet], filter: .chart, maxResults: 10, regionCode: "JP")
+        let request = VideoListRequest(part: [.id, .snippet], filter: .chart, maxResults: 10, regionCode: "JP" )
+        
+       
         
         // Send a request.
         YoutubeAPI.shared.send(request) { result in
