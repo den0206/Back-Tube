@@ -7,8 +7,16 @@
 //
 
 import UIKit
+import YoutubeKit
+import SDWebImage
 
 class VideoCell : UICollectionViewCell {
+    
+    var video : Video? {
+        didSet {
+         configure()
+        }
+    }
     
     private let thumbnailImageView : UIImageView = {
         let iv = UIImageView()
@@ -87,5 +95,21 @@ class VideoCell : UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func configure() {
+        
+        guard let video = video else {return}
+        
+        guard let snipet = video.snippet else {return}
+        titleLabel.text = snipet.title
+        
+        guard let thumbnail = snipet.thumbnails.medium.url else {return}
+        let url = URL(string: thumbnail)
+        thumbnailImageView.sd_setImage(with: url)
+        
+       
+        
+        
     }
 }

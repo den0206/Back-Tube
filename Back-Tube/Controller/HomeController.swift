@@ -15,7 +15,11 @@ class HomeController: UICollectionViewController{
     
     //MARK: - Vars
     
-    private  var videos = [Video]()
+    private  var videos = [Video]() {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
     
     init() {
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
@@ -77,15 +81,18 @@ class HomeController: UICollectionViewController{
     //MARK: - API
     
     private func fetchChart() {
-        let request = VideoListRequest(part: [.id, .statistics, .snippet], filter: .chart, maxResults: 10, regionCode: "JP")
+        let request = VideoListRequest(part: [.id, .snippet], filter: .chart, maxResults: 10, regionCode: "JP")
         
         // Send a request.
         YoutubeAPI.shared.send(request) { result in
             switch result {
             case .success(let response):
+                
+                var charts = [Video]()
                 for video in response.items {
-                    self.videos.append(video)
-                    print(video.snippet?.title )
+                    charts.append(video)
+    
+                    self.videos = charts
                 }
             case .failed(let error):
                 print(error)
@@ -98,13 +105,24 @@ class HomeController: UICollectionViewController{
 extension HomeController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return 5
+        return videos.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifer, for: indexPath) as! VideoCell
+        
+        cell.video = videos[indexPath.item]
         return cell
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let video = videos[indexPath.item]
+        
+        
+        let viewoLauncher = VideoLauncher(videoId: video.id)
+        present(viewoLauncher, animated: true, completion: nil)
     }
 }
 
