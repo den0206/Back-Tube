@@ -14,6 +14,7 @@
 		3A1276FE244DBDD9003A6750 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1276FD244DBDD9003A6750 /* HomeController.swift */; };
 		3A127701244DC041003A6750 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A127700244DC041003A6750 /* Extension.swift */; };
 		3A4381A1244DCD7B009DE6F9 /* sec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A4381A0244DCD7B009DE6F9 /* sec.swift */; };
+		3AB98C8F2451B07C00086DC1 /* SuggestWord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB98C8E2451B07C00086DC1 /* SuggestWord.swift */; };
 		3AC9FA15244F0D8E00CE51F8 /* VideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC9FA14244F0D8E00CE51F8 /* VideoCell.swift */; };
 		3AD3EAE224505DEB00409967 /* VideoLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD3EAE124505DEB00409967 /* VideoLauncher.swift */; };
 		3AD3EAE4245086C100409967 /* MainTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD3EAE3245086C100409967 /* MainTabController.swift */; };
@@ -32,6 +33,7 @@
 		3A1276FD244DBDD9003A6750 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		3A127700244DC041003A6750 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		3A4381A0244DCD7B009DE6F9 /* sec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sec.swift; sourceTree = "<group>"; };
+		3AB98C8E2451B07C00086DC1 /* SuggestWord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestWord.swift; sourceTree = "<group>"; };
 		3AC9FA14244F0D8E00CE51F8 /* VideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCell.swift; sourceTree = "<group>"; };
 		3AD3EAE124505DEB00409967 /* VideoLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoLauncher.swift; sourceTree = "<group>"; };
 		3AD3EAE3245086C100409967 /* MainTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabController.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 		3A127702244DC048003A6750 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				3AB98C8E2451B07C00086DC1 /* SuggestWord.swift */,
 				3A127700244DC041003A6750 /* Extension.swift */,
 				3A4381A0244DCD7B009DE6F9 /* sec.swift */,
 			);
@@ -250,6 +253,7 @@
 				3AD3EAE62450880900409967 /* SearchViewController.swift in Sources */,
 				3A4381A1244DCD7B009DE6F9 /* sec.swift in Sources */,
 				3AD3EAE224505DEB00409967 /* VideoLauncher.swift in Sources */,
+				3AB98C8F2451B07C00086DC1 /* SuggestWord.swift in Sources */,
 				3A1276FE244DBDD9003A6750 /* HomeController.swift in Sources */,
 				3A1276EA244DBD61003A6750 /* AppDelegate.swift in Sources */,
 				3A1276EC244DBD61003A6750 /* SceneDelegate.swift in Sources */,
