@@ -106,8 +106,20 @@ extension SearchViewController : UISearchResultsUpdating, UISearchBarDelegate {
     }
     
     @objc func serachSuggestions() {
-        APISearvice.suggestWordRequest(suggestWord: searchController.searchBar.text!) { (suggestions) in
+        APISearvice.suggestWordRequest(suggestWord: searchController.searchBar.text!) { (suggestions, error) in
+            
             self.suggestionsWords.removeAll()
+            
+            if error != nil {
+                
+                DispatchQueue.main.async {
+                    self.showErrorAlert(message: error!.localizedDescription)
+                }
+                
+                self.suggestionsWords = suggestions
+                return
+            }
+            
             
             self.suggestionsWords = suggestions
             

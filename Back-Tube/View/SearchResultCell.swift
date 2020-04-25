@@ -8,13 +8,13 @@
 
 import UIKit
 import YoutubeKit
+import SDWebImage
 
 class SearchResultCell : UITableViewCell {
     
     var searchResult : SearchResult? {
         didSet {
-            guard let searchResult = searchResult else {return}
-            titleLabel.text = searchResult.snippet.title
+            configure()
         }
     }
     
@@ -35,6 +35,7 @@ class SearchResultCell : UITableViewCell {
     let titleLabel : UILabel = {
         let label = UILabel()
         label.text = "title"
+        label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 16)
         return label
     }()
@@ -77,5 +78,16 @@ class SearchResultCell : UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func configure() {
+        guard let searchResult = searchResult else {return}
+        titleLabel.text = searchResult.snippet.title
+        
+        guard let thumanail = searchResult.snippet.thumbnails.default.url else {return}
+        let url = URL(string: thumanail)
+        
+        thumbnailImageView.sd_setImage(with: url)
+        
     }
 }

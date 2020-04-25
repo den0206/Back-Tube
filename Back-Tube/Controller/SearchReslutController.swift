@@ -15,8 +15,17 @@ class SearchResultController: UITableViewController {
     
     var searchWord : String
     
+    var nextPageToken : String? {
+        didSet {
+            print(nextPageToken)
+        }
+    }
+    
+    var toatlResultCount : Int?
+    
     var searchResults = [SearchResult]() {
         didSet {
+            
             tableView.reloadData()
         }
     }
@@ -43,7 +52,7 @@ class SearchResultController: UITableViewController {
         tableView.backgroundColor = .white
         tableView.rowHeight = 100
         
-        tableView.tableFooterView = UIView()
+//        tableView.tableFooterView = UIView()
         
         tableView.register(SearchResultCell.self, forCellReuseIdentifier: reuseIdentifer)
         
@@ -64,9 +73,14 @@ class SearchResultController: UITableViewController {
                     results.append(result)
                 }
                 
+                self.toatlResultCount = response.pageInfo.totalResults
+                print(self.toatlResultCount)
+                
+                self.nextPageToken = response.nextPageToken
                 self.searchResults = results
             case .failed(let error) :
                 print(error)
+                self.showErrorAlert(message: error.localizedDescription)
             }
         }
     }
@@ -89,4 +103,28 @@ extension SearchResultController {
      
         return cell
     }
+    
+    /// more button
+    
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        guard let toatlResultCount = toatlResultCount else {return  UIView()}
+        
+        if toatlResultCount >= searchResults.count {
+            
+            let view = UIView()
+            view.backgroundColor = .red
+            
+            return view
+            
+        }
+        
+        return UIView()
+    }
+    
+ 
+    
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 50
+    }
+    
 }

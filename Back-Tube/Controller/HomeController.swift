@@ -98,6 +98,7 @@ class HomeController: UICollectionViewController{
                 }
             case .failed(let error):
                 print(error)
+                self.showErrorAlert(message: error.localizedDescription)
             }
         }
     }

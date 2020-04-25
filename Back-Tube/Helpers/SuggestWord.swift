@@ -26,7 +26,7 @@ struct APIEndpoint {
 }
 
 struct APISearvice {
-    static func suggestWordRequest(suggestWord : String, completion : @escaping([String]) -> Void) {
+    static func suggestWordRequest(suggestWord : String, completion : @escaping([String], Error?) -> Void) {
         
         let baseUrl = APIEndpoint.suggestWordUrl(suggestWord: suggestWord)
         guard let url = URL(string: baseUrl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "") else {return}
@@ -36,6 +36,7 @@ struct APISearvice {
             
             if error != nil {
                 print(error!.localizedDescription)
+                completion([String](), error)
                 return
             }
             
@@ -46,7 +47,7 @@ struct APISearvice {
                 
                 model.remove(at: 0)
                 let wordArray = model[0] as! [String]
-                completion(wordArray)
+                completion(wordArray, nil)
                
             } catch let error {
                 
