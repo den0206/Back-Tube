@@ -36,7 +36,7 @@ class SearchResultCell : UITableViewCell {
         let label = UILabel()
         label.text = "title"
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
     
@@ -65,12 +65,12 @@ class SearchResultCell : UITableViewCell {
         
         let stack = UIStackView(arrangedSubviews: [searchLabel, titleLabel])
         stack.axis = .vertical
-        stack.spacing = 8
+        stack.spacing = 4
         
         containerView.addSubview(stack)
         
         stack.centerX(inView: containerView, topAnchor: topAnchor, paddingTop: 10)
-        stack.anchor(left : leftAnchor, right: thumbnailImageView.leftAnchor)
+        stack.anchor(left : leftAnchor,bottom: bottomAnchor, right: thumbnailImageView.leftAnchor, paddingLeft: 8, paddiongBottom: 10)
         
         
         

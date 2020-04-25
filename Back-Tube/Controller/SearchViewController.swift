@@ -127,6 +127,17 @@ extension SearchViewController : UISearchResultsUpdating, UISearchBarDelegate {
         
     }
     
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.endEditing(true)
+        
+        guard let word = searchBar.text else {return}
+        
+        let resultVC = SearchResultController(_searchWord: word)
+        navigationController?.pushViewController(resultVC, animated: true)
+        
+        
+    }
+    
     
     
 }

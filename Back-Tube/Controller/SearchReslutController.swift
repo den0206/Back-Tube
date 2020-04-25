@@ -17,7 +17,7 @@ class SearchResultController: UITableViewController {
     
     var nextPageToken : String? {
         didSet {
-            print(nextPageToken)
+            print("DEBUG : \(nextPageToken)")
         }
     }
     
@@ -25,7 +25,6 @@ class SearchResultController: UITableViewController {
     
     var searchResults = [SearchResult]() {
         didSet {
-            
             tableView.reloadData()
         }
     }
@@ -62,7 +61,7 @@ class SearchResultController: UITableViewController {
     
     private func fetchSeatchResult() {
         
-        let request = SearchListRequest(part: [.id,.snippet], maxResults: 10,  pageToken: nil, searchQuery: searchWord, regionCode: "JP")
+        let request = SearchListRequest(part: [.snippet], maxResults: 10,  pageToken: nil, searchQuery: searchWord, regionCode: "JP")
         
         YoutubeAPI.shared.send(request) { (result) in
             switch result {
@@ -74,7 +73,6 @@ class SearchResultController: UITableViewController {
                 }
                 
                 self.toatlResultCount = response.pageInfo.totalResults
-                print(self.toatlResultCount)
                 
                 self.nextPageToken = response.nextPageToken
                 self.searchResults = results
@@ -104,6 +102,13 @@ extension SearchResultController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let result = searchResults[indexPath.row]
+        
+        print(result.snippet)
+        print(result.id.videoID)
+    }
+    
     /// more button
     
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
@@ -111,10 +116,11 @@ extension SearchResultController {
         
         if toatlResultCount >= searchResults.count {
             
-            let view = UIView()
-            view.backgroundColor = .red
+            let footerView = SearchFooterView()
             
-            return view
+            footerView.delegate = self
+            
+            return footerView
             
         }
         
@@ -124,7 +130,47 @@ extension SearchResultController {
  
     
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 50
+        
+        guard let toatlResultCount = toatlResultCount else {return  0}
+        
+        if toatlResultCount >= searchResults.count {
+             return 50
+        }
+        
+        return 0
+       
     }
+    
+}
+
+//MARK: - Show more
+
+extension SearchResultController : SearchFooterViewDelegate {
+    func handleShowMore(footerView: SearchFooterView) {
+        
+        let request = SearchListRequest(part: [.snippet], maxResults: 10,  pageToken: nextPageToken,searchQuery: searchWord, regionCode: "JP")
+        
+        YoutubeAPI.shared.send(request) { (result) in
+            
+            switch result {
+            case .success(let response):
+                
+                var results = [SearchResult]()
+                for result in response.items {
+                    results.append(result)
+                }
+                self.nextPageToken = response.nextPageToken
+                
+                self.searchResults.append(contentsOf: results)
+                
+                
+            case .failed(let error) :
+                print(error.localizedDescription)
+                self.showErrorAlert(message: error.localizedDescription)
+                
+            }
+        }
+    }
+    
     
 }
