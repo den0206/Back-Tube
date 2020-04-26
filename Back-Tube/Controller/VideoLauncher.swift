@@ -16,6 +16,15 @@ class VideoLauncher: UIViewController {
     let videoId : String
     var tableView = UITableView()
     
+    var relatedTitle : String?
+    
+    var relatedVideos = [SearchResult]() {
+        didSet {
+            print(relatedVideos.count)
+            tableView.reloadData()
+        }
+    }
+    
     var videoViewHeight : CGFloat?
     
     private var player : YTSwiftyPlayer!
@@ -53,7 +62,7 @@ class VideoLauncher: UIViewController {
             playerVars: [.videoID(videoId), VideoEmbedParameter.showRelatedVideo(false)])
         
         // Enable auto playback when video is loaded
-        player.autoplay = true
+        player.autoplay = false
         
         // Set player view.
         view.addSubview(player)
@@ -75,6 +84,7 @@ class VideoLauncher: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.isScrollEnabled = true
         
         tableView.contentInset = UIEdgeInsets(top: 25, left: 0, bottom: 0, right: 0)
         tableView.scrollIndicatorInsets = UIEdgeInsets(top: 25, left: 0, bottom: 0, right: 0)
@@ -84,11 +94,20 @@ class VideoLauncher: UIViewController {
         
         let request =  SearchListRequest(part: [.snippet], filter: .relatedToVideoID(videoId), maxResults: 7,regionCode: "JP",resourceType: [.video])
         
+        print("DEBUG : \(request)")
+        
         YoutubeAPI.shared.send(request) { (request) in
             
             switch request {
+                
             case .success(let response) :
-                print(response)
+                var results = [SearchResult]()
+                for result in response.items {
+                    results.append(result)
+                }
+                
+                self.relatedVideos.append(contentsOf: results)
+                
             case .failed(let error) :
                 print(error)
             }
@@ -106,13 +125,18 @@ class VideoLauncher: UIViewController {
 extension VideoLauncher : UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 5
+        return relatedVideos.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifer, for: indexPath) as! SearchResultCell
         
+        cell.searchResult = relatedVideos[indexPath.row]
+        
+        guard let relatedTitle = relatedTitle else {return cell}
+        
+        cell.searchLabel.text = relatedTitle
         return cell
     }
     

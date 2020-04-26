@@ -108,10 +108,11 @@ extension SearchResultController {
         let result = searchResults[indexPath.row]
         
         guard let videoId = result.id.videoID else {
-            print("No")
+            showErrorAlert(message: "ビデオが見つかりません")
             return}
         
         let videoLauncher = VideoLauncher(videoId: videoId)
+        videoLauncher.relatedTitle = result.snippet.title
         present(videoLauncher, animated: true, completion: nil)
     }
     
