@@ -93,6 +93,7 @@ extension URL {
         guard var urlComponents = URLComponents(url: self, resolvingAgainstBaseURL: true) else {
             return nil
         }
+        
         urlComponents.queryItems = (urlComponents.queryItems ?? []) + queryItems
         return urlComponents.url
     }

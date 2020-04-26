@@ -45,6 +45,8 @@ class SearchResultController: UITableViewController {
         
         fetchSeatchResult()
         
+        
+        
     }
     
     private func configureTableView() {
@@ -105,8 +107,12 @@ extension SearchResultController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let result = searchResults[indexPath.row]
         
-        print(result.snippet)
-        print(result.id.videoID)
+        guard let videoId = result.id.videoID else {
+            print("No")
+            return}
+        
+        let videoLauncher = VideoLauncher(videoId: videoId)
+        present(videoLauncher, animated: true, completion: nil)
     }
     
     /// more button

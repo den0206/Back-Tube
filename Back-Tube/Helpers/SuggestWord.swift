@@ -20,7 +20,6 @@ struct APIEndpoint {
                 URLQueryItem(name: "q", value: "\(suggestWord)")]
         
         let viewCountUrl = baseurl.appending(queryItems)!
-        
         return viewCountUrl.absoluteString
     }
 }
@@ -29,9 +28,14 @@ struct APISearvice {
     static func suggestWordRequest(suggestWord : String, completion : @escaping([String], Error?) -> Void) {
         
         let baseUrl = APIEndpoint.suggestWordUrl(suggestWord: suggestWord)
+//        let decord = baseUrl.removingPercentEncoding
+//        guard let url = URL(string: decord ?? "") else {return}
         guard let url = URL(string: baseUrl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "") else {return}
-        
+        print(url)
+      
         let session = URLSession(configuration: .default)
+        
+        
         let task = session.dataTask(with: url) { (data, response, error) in
             
             if error != nil {
@@ -47,6 +51,7 @@ struct APISearvice {
                 
                 model.remove(at: 0)
                 let wordArray = model[0] as! [String]
+                print(wordArray)
                 completion(wordArray, nil)
                
             } catch let error {
