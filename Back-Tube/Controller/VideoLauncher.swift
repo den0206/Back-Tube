@@ -50,6 +50,8 @@ class VideoLauncher: UIViewController {
         configTableView()
        
         fetchRelatedVideos()
+        
+        NotificationCenter.default.addObserver(forName: UIApplication.didEnterBackgroundNotification, object: nil, queue: nil, using: didEnterBackground)
     }
     
     private func configVideoPlayer() {
@@ -59,7 +61,7 @@ class VideoLauncher: UIViewController {
         
         player = YTSwiftyPlayer(
             frame: CGRect(x: 0, y: 0, width: view.frame.width, height: videoViewHeight!),
-            playerVars: [.videoID(videoId), VideoEmbedParameter.showRelatedVideo(false)])
+            playerVars: [.videoID(videoId), VideoEmbedParameter.showRelatedVideo(false),VideoEmbedParameter.playsInline(true),VideoEmbedParameter.showFullScreenButton(true)])
         
         // Enable auto playback when video is loaded
         player.autoplay = false
@@ -112,9 +114,12 @@ class VideoLauncher: UIViewController {
                 print(error)
             }
         }
-        
-        
-        
+    }
+    
+    internal func didEnterBackground(notification: Notification) {
+//        let script = "var vids = document.getElementsByTagName('video'); for( var i = 0; i < vids.length; i++ ){vids.item(i).play()}"
+//        player.evaluateJavaScript(script, completionHandler:nil)
+        player.playVideo()
     }
     
     

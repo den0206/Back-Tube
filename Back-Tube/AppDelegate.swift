@@ -8,6 +8,7 @@
 
 import UIKit
 import YoutubeKit
+import AVFoundation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,6 +19,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         YoutubeKit.shared.setAPIKey(YOUTUBE_API_KEY)
+        
+        do {
+            try AVAudioSession.sharedInstance().setCategory(
+                .playback, mode: .default)
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch {
+            print(error)
+        }
+        
         
         return true
     }

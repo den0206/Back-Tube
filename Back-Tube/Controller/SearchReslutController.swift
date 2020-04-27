@@ -41,9 +41,10 @@ class SearchResultController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureTableView()
         
         fetchSeatchResult()
+        
+        configureTableView()
         
         
         
@@ -54,8 +55,20 @@ class SearchResultController: UITableViewController {
         tableView.rowHeight = 100
         
 //        tableView.tableFooterView = UIView()
+        let footer = SearchFooterView()
+        footer.delegate = self
+        footer.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 50)
+        tableView.tableFooterView = footer
+        
+        
         
         tableView.register(SearchResultCell.self, forCellReuseIdentifier: reuseIdentifer)
+        
+        guard let toatlResultCount = toatlResultCount else {return}
+        
+        if toatlResultCount >= searchResults.count {
+            tableView.tableFooterView?.isHidden = true
+        }
         
     }
     
@@ -118,35 +131,36 @@ extension SearchResultController {
     
     /// more button
     
-    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        guard let toatlResultCount = toatlResultCount else {return  UIView()}
-        
-        if toatlResultCount >= searchResults.count {
-            
-            let footerView = SearchFooterView()
-            
-            footerView.delegate = self
-            
-            return footerView
-            
-        }
-        
-        return UIView()
-    }
-    
- 
-    
-    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        
-        guard let toatlResultCount = toatlResultCount else {return  0}
-        
-        if toatlResultCount >= searchResults.count {
-             return 50
-        }
-        
-        return 0
-       
-    }
+//    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+//
+//        guard let toatlResultCount = toatlResultCount else {return  UIView()}
+//
+//        if toatlResultCount >= searchResults.count {
+//
+//            let footerView = SearchFooterView()
+//
+//            footerView.delegate = self
+//
+//            return footerView
+//
+//        }
+//
+//        return UIView()
+//    }
+//
+// 
+//
+//    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+//
+//        guard let toatlResultCount = toatlResultCount else {return  0}
+//
+//        if toatlResultCount >= searchResults.count {
+//             return 50
+//        }
+//
+//        return 0
+//
+//    }
     
 }
 
