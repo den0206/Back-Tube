@@ -8,6 +8,7 @@
 
 import UIKit
 import YoutubeKit
+import WebKit
 
 private let reuseIdentifer = "Cell"
 
@@ -63,8 +64,10 @@ class VideoLauncher: UIViewController {
             frame: CGRect(x: 0, y: 0, width: view.frame.width, height: videoViewHeight!),
             playerVars: [.videoID(videoId), VideoEmbedParameter.showRelatedVideo(false),VideoEmbedParameter.playsInline(true),VideoEmbedParameter.showFullScreenButton(true)])
         
+        player.navigationDelegate = self
+        
         // Enable auto playback when video is loaded
-        player.autoplay = false
+        player.autoplay = true
         
         // Set player view.
         view.addSubview(player)
@@ -74,6 +77,9 @@ class VideoLauncher: UIViewController {
         
         // Load the video.
         player.loadPlayer()
+        
+        
+       
     }
     
     private func configTableView() {
@@ -117,9 +123,13 @@ class VideoLauncher: UIViewController {
     }
     
     internal func didEnterBackground(notification: Notification) {
-//        let script = "var vids = document.getElementsByTagName('video'); for( var i = 0; i < vids.length; i++ ){vids.item(i).play()}"
-//        player.evaluateJavaScript(script, completionHandler:nil)
-        player.playVideo()
+        //        let script = "var vids = document.getElementsByTagName('video'); for( var i = 0; i < vids.length; i++ ){vids.item(i).playVideo()}"
+        //        player.evaluateJavaScript(script, completionHandler:nil)
+        print("back")
+        
+ 
+        
+        //        player.playVideo()
     }
     
     
@@ -153,5 +163,36 @@ extension VideoLauncher : YTSwiftyPlayerDelegate {
         
     }
     
+    func player(_ player: YTSwiftyPlayer, didChangeState state: YTSwiftyPlayerState) {
+        switch state {
+        case .paused:
+            
+            DispatchQueue.main.async {
+                self.player.playVideo()
+            }
+            
+//            DispatchQueue.main.asyncAfter(deadline: .now() + .microseconds(0)) {
+//                self.player.playVideo()
+//            }
+        default:
+            return
+        }
+    }
     
+
+}
+
+extension VideoLauncher : WKNavigationDelegate {
+ 
+    
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        player.evaluateJavaScript(
+            "document.getElementsByTagName('html')[0].innerHTML",
+            completionHandler: { (html: Any?, error: Error?) in
+                if let html = html as? String {
+                    print("HTML \(html)")
+                }
+        }
+        )
+    }
 }

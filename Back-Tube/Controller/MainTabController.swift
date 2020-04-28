@@ -20,8 +20,8 @@ class MainTabController : UITabBarController {
     
     func configureTabController() {
         
-        let homeVC = HomeController()
-        let nav1 = templetaNavigationController(image: #imageLiteral(resourceName: "home_unselected"), rootController: homeVC)
+        let trendVC = TrendViewController()
+        let nav1 = templetaNavigationController(image: #imageLiteral(resourceName: "home_unselected"), rootController: trendVC)
         
         let searchVC = SearchViewController()
         let nav2 = templetaNavigationController(image: #imageLiteral(resourceName: "search_unselected"), rootController: searchVC)

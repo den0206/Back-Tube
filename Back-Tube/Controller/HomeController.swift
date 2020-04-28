@@ -46,7 +46,8 @@ class HomeController: UICollectionViewController{
         let appearence = UINavigationBarAppearance()
         appearence.configureWithOpaqueBackground()
         appearence.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
-        appearence.backgroundColor = UIColor.rgb(red: 230, green: 32, blue: 31)
+//        appearence.backgroundColor = UIColor.rgb(red: 230, green: 32, blue: 31)
+         appearence.backgroundColor = UIColor.black
         
         navigationController?.navigationBar.standardAppearance = appearence
         navigationController?.navigationBar.compactAppearance = appearence
