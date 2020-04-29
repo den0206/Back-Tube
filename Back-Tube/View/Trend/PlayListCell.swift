@@ -7,8 +7,17 @@
 //
 
 import UIKit
+import YoutubeKit
+import SDWebImage
 
 class PlayListCell : UICollectionViewCell {
+    
+    var video : Video? {
+        didSet {
+            configure()
+        }
+    }
+    
     //MARK: - Parts
     
     private let PlaylistImageView : UIImageView = {
@@ -42,5 +51,21 @@ class PlayListCell : UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func configure() {
+        
+        guard let video = video else {return}
+        
+        guard let snipet = video.snippet else {return}
+        TitleLabel.text = snipet.title
+        
+        guard let thumbnail = snipet.thumbnails.medium.url else {return}
+        let url = URL(string: thumbnail)
+        PlaylistImageView.sd_setImage(with: url)
+        
+        
+        
+        
     }
 }

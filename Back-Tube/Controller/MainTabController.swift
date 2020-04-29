@@ -13,7 +13,7 @@ class MainTabController : UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .lightGray
         
         configureTabController()
     }
@@ -27,13 +27,16 @@ class MainTabController : UITabBarController {
         let nav2 = templetaNavigationController(image: #imageLiteral(resourceName: "search_unselected"), rootController: searchVC)
         
         viewControllers = [nav1,nav2]
+        self.tabBar.barTintColor = .black
+        
+        UITabBar.appearance().tintColor = .red
+        tabBar.unselectedItemTintColor = .white
     }
     
     private func templetaNavigationController(image : UIImage?, rootController : UIViewController) -> UINavigationController {
         
         let nav = UINavigationController(rootViewController: rootController)
         nav.tabBarItem.image = image
-     
         
         return nav
     }

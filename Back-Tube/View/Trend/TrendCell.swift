@@ -7,45 +7,40 @@
 //
 
 import UIKit
+import YoutubeKit
 
 
 private let resuseIdentifer = "SubCell"
 
 class TrendCell : UICollectionViewCell {
     
+    //MARK: - Vars
+    
+    var videos = [Video]()
+    
+    var arrays : [[Video]]?
+    /// cell.video = arrays[indexPath.section]
     //MARK: - Parts
-    
-    private let titleLable : UILabel = {
-        let label = UILabel()
-        label.text = "Section"
-        label.textColor = .white
-        label.font = UIFont.boldSystemFont(ofSize: 14)
-        return label
-    }()
-    
+//
+
     let collectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.backgroundColor = .purple
+        cv.backgroundColor = .black
         return cv
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        
-        addSubview(titleLable)
-        titleLable.anchor(top : topAnchor, left: leftAnchor,paddongTop: 8,paddingLeft: 8)
-        
         /// add subCV
         
         addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(PlayListCell.self, forCellWithReuseIdentifier: resuseIdentifer)
-        collectionView.anchor(top : titleLable.bottomAnchor,left : leftAnchor,bottom: bottomAnchor,right: rightAnchor)
+        collectionView.anchor(top : topAnchor,left : leftAnchor,bottom: bottomAnchor,right: rightAnchor)
     }
     
     required init?(coder: NSCoder) {
@@ -55,13 +50,14 @@ class TrendCell : UICollectionViewCell {
 
 extension TrendCell : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        
+        return videos.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: resuseIdentifer, for: indexPath) as! PlayListCell
-        
+        cell.video = videos[indexPath.item]
         return cell
     }
     
