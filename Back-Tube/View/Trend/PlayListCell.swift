@@ -12,7 +12,7 @@ import SDWebImage
 
 class PlayListCell : UICollectionViewCell {
     
-    var video : Video? {
+    var video : SearchResult? {
         didSet {
             configure()
         }
@@ -20,17 +20,18 @@ class PlayListCell : UICollectionViewCell {
     
     //MARK: - Parts
     
-    private let PlaylistImageView : UIImageView = {
+    private let playlistImageView : UIImageView = {
         let iv = UIImageView()
         iv.backgroundColor = .lightGray
-        iv.image = #imageLiteral(resourceName: "home_unselected")
-        iv.contentMode = .scaleToFill
+        iv.setDimension(width: 150, height: 150)
+       
+//        iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
         
         return iv
     }()
     
-    let TitleLabel : UILabel = {
+    let titleLabel : UILabel = {
         let lb = UILabel()
         lb.textColor = UIColor.lightGray
         lb.font = UIFont.systemFont(ofSize: 16)
@@ -42,11 +43,11 @@ class PlayListCell : UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addSubview(PlaylistImageView)
-        PlaylistImageView.anchor(top : topAnchor,left: leftAnchor,right: rightAnchor,height: 240)
+        addSubview(playlistImageView)
+        playlistImageView.anchor(top : topAnchor,left: leftAnchor,right: rightAnchor)
         
-        addSubview(TitleLabel)
-            TitleLabel.anchor(top : PlaylistImageView.bottomAnchor, left: leftAnchor, right: rightAnchor,paddongTop: 10,paddingLeft: 8,paddingRight: 8)
+        addSubview(titleLabel)
+            titleLabel.anchor(top : playlistImageView.bottomAnchor, left: leftAnchor, right: rightAnchor,paddongTop: 10,paddingLeft: 8,paddingRight: 8)
     }
     
     required init?(coder: NSCoder) {
@@ -55,17 +56,13 @@ class PlayListCell : UICollectionViewCell {
     
     private func configure() {
         
-        guard let video = video else {return}
-        
-        guard let snipet = video.snippet else {return}
-        TitleLabel.text = snipet.title
-        
-        guard let thumbnail = snipet.thumbnails.medium.url else {return}
-        let url = URL(string: thumbnail)
-        PlaylistImageView.sd_setImage(with: url)
-        
-        
-        
-        
+     guard let searchResult =  video else {return}
+     titleLabel.text = searchResult.snippet.title
+     
+     guard let thumanail = searchResult.snippet.thumbnails.default.url else {return}
+     let url = URL(string: thumanail)
+     
+     playlistImageView.sd_setImage(with: url)
+     
     }
 }

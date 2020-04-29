@@ -16,9 +16,13 @@ class TrendCell : UICollectionViewCell {
     
     //MARK: - Vars
     
-    var videos = [Video]()
+    var videos = [SearchResult]() {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
     
-    var arrays : [[Video]]?
+    var arrays = [[SearchResult]]()
     /// cell.video = arrays[indexPath.section]
     //MARK: - Parts
 //
@@ -50,13 +54,18 @@ class TrendCell : UICollectionViewCell {
 
 extension TrendCell : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
+//
+//        switch arrays[section] {
+//        default:
+//           return arrays[section].count
+//        }
         return videos.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: resuseIdentifer, for: indexPath) as! PlayListCell
+        
         cell.video = videos[indexPath.item]
         return cell
     }

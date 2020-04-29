@@ -14,12 +14,22 @@ private let headerIdentifer = "SectionHeader"
 
 class TrendViewController : UICollectionViewController {
     
-    private  var videos = [Video]() {
+    var resultArrays = [[SearchResult]]() {
         didSet {
-            collectionView.reloadData()
+            if resultArrays.count == 3 {
+                print(resultArrays.count)
+                collectionView.reloadData()
+            }
         }
     }
     
+//    private  var videos = [SearchResult]() {
+//        didSet {
+////            print(videos)
+//            collectionView.reloadData()
+//        }
+//    }
+//
     var sectionTitles : [String] = ["All", "AllNight", "Junk"]
 
     init() {
@@ -34,7 +44,9 @@ class TrendViewController : UICollectionViewController {
         super.viewDidLoad()
        
         configureCV()
-        fetchChart()
+        fetchRadio()
+        fetchAllnight()
+        fetchJunk()
         
     }
     
@@ -57,28 +69,81 @@ class TrendViewController : UICollectionViewController {
     
     //MARK: - API
     
-    private func fetchChart() {
-          let request = VideoListRequest(part: [.id, .snippet], filter: .chart, maxResults: 10, regionCode: "JP" )
-          
-         
-          
-          // Send a request.
-          YoutubeAPI.shared.send(request) { result in
-              switch result {
-              case .success(let response):
-                  
-                  var charts = [Video]()
-                  for video in response.items {
-                      charts.append(video)
-      
-                      self.videos = charts
-                  }
-              case .failed(let error):
-                  print(error)
-                  self.showErrorAlert(message: error.localizedDescription)
-              }
-          }
-      }
+    private func fetchRadio() {
+        
+        let request = SearchListRequest(part: [.snippet], maxResults: 7, pageToken:  nil, searchQuery: "ラジオ",regionCode: "JP")
+        
+        YoutubeAPI.shared.send(request) { (result) in
+            switch result {
+            case .success(let response) :
+                
+                var results = [SearchResult]()
+                for result in response.items {
+                    results.append(result)
+                }
+             
+//                self.videos = results
+//                self.resultArrays.append(results)
+                self.resultArrays.insert(results, at: 0)
+                
+             
+            case .failed(let error) :
+                print(error)
+                self.showErrorAlert(message: error.localizedDescription)
+            }
+        }
+        
+    }
+    
+    private func fetchAllnight() {
+        
+        let request = SearchListRequest(part: [.snippet], maxResults: 7, pageToken:  nil, searchQuery: "オールナイト",regionCode: "JP")
+        
+        YoutubeAPI.shared.send(request) { (result) in
+            switch result {
+            case .success(let response) :
+                
+                var results = [SearchResult]()
+                for result in response.items {
+                    results.append(result)
+                }
+                
+                self.resultArrays.insert(results, at: 1)
+                
+                
+                
+            case .failed(let error) :
+                print(error)
+                self.showErrorAlert(message: error.localizedDescription)
+            }
+        }
+        
+    }
+    
+    private func fetchJunk() {
+        
+        let request = SearchListRequest(part: [.snippet], maxResults: 7, pageToken:  nil, searchQuery: "JUNK",regionCode: "JP")
+        
+        YoutubeAPI.shared.send(request) { (result) in
+            switch result {
+            case .success(let response) :
+                
+                var results = [SearchResult]()
+                for result in response.items {
+                    results.append(result)
+                }
+                
+                //                self.videos = results
+                self.resultArrays.append(results)
+                
+            case .failed(let error) :
+                print(error)
+                self.showErrorAlert(message: error.localizedDescription)
+            }
+        }
+        
+    }
+    
     
 }
 extension TrendViewController {
@@ -93,8 +158,12 @@ extension TrendViewController {
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: resuseIdentifer, for: indexPath) as! TrendCell
-        
-        cell.videos = videos
+        print(resultArrays.count)
+        if resultArrays.count == 3 {
+            cell.videos = resultArrays[indexPath.section]
+        }
+//
+       
         return cell
     }
     
