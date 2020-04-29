@@ -9,10 +9,16 @@
 import UIKit
 import YoutubeKit
 
+protocol TrendCellDelegate {
+    func didTappedTrend(video : SearchResult)
+}
+
 
 private let resuseIdentifer = "SubCell"
 
 class TrendCell : UICollectionViewCell {
+    
+    var delegate : TrendCellDelegate?
     
     //MARK: - Vars
     
@@ -72,6 +78,13 @@ extension TrendCell : UICollectionViewDelegate, UICollectionViewDataSource, UICo
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: frame.height, height: frame.height)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let video = videos[indexPath.item]
+        delegate?.didTappedTrend(video: video)
+      
     }
     
     

@@ -167,7 +167,8 @@ extension TrendViewController {
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: resuseIdentifer, for: indexPath) as! TrendCell
-
+        
+        cell.delegate = self
         if resultArrays.count == 3 {
             cell.videos = resultArrays[indexPath.section]
         }
@@ -205,4 +206,17 @@ extension TrendViewController : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 50
     }
+}
+
+extension TrendViewController : TrendCellDelegate {
+    
+    func didTappedTrend(video: SearchResult) {
+        guard let videoId = video.id.videoID else {return}
+        
+        let launcher = VideoLauncher(videoId: videoId)
+        self.present(launcher, animated: true, completion: nil)
+     
+    }
+    
+    
 }
