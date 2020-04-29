@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         YoutubeKit.shared.setAPIKey(YOUTUBE_API_KEY)
+        print(YOUTUBE_API_KEY)
         
         do {
             try AVAudioSession.sharedInstance().setCategory(

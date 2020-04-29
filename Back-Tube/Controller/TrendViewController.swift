@@ -44,9 +44,18 @@ class TrendViewController : UICollectionViewController {
         super.viewDidLoad()
        
         configureCV()
-        fetchRadio()
-        fetchAllnight()
-        fetchJunk()
+        
+        YoutubeService.shared.fetchTrend { (results, error) in
+
+            if error != nil {
+                self.showErrorAlert(message: error!.localizedDescription)
+            }
+            self.resultArrays = results
+            print(self.resultArrays.count)
+        }
+//        fetchRadio()
+//        fetchAllnight()
+//        fetchJunk()
         
     }
     
@@ -122,7 +131,7 @@ class TrendViewController : UICollectionViewController {
     
     private func fetchJunk() {
         
-        let request = SearchListRequest(part: [.snippet], maxResults: 7, pageToken:  nil, searchQuery: "JUNK",regionCode: "JP")
+        let request = SearchListRequest(part: [.snippet], maxResults: 7, pageToken:  nil, searchQuery: "JUNK ラジオ",regionCode: "JP")
         
         YoutubeAPI.shared.send(request) { (result) in
             switch result {
@@ -158,7 +167,7 @@ extension TrendViewController {
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: resuseIdentifer, for: indexPath) as! TrendCell
-        print(resultArrays.count)
+
         if resultArrays.count == 3 {
             cell.videos = resultArrays[indexPath.section]
         }
