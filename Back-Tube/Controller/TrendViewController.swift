@@ -44,19 +44,7 @@ class TrendViewController : UICollectionViewController {
         super.viewDidLoad()
        
         configureCV()
-        
-        YoutubeService.shared.fetchTrend { (results, error) in
-
-            if error != nil {
-                self.showErrorAlert(message: error!.localizedDescription)
-            }
-            self.resultArrays = results
-            print(self.resultArrays.count)
-        }
-//        fetchRadio()
-//        fetchAllnight()
-//        fetchJunk()
-        
+        fetchTrends()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -66,7 +54,7 @@ class TrendViewController : UICollectionViewController {
     
     private func configureCV() {
         
-         view.backgroundColor = .black
+        view.backgroundColor = .black
         
         collectionView.register(TrendCell.self, forCellWithReuseIdentifier: resuseIdentifer)
         collectionView.register(SectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifer)
@@ -76,84 +64,20 @@ class TrendViewController : UICollectionViewController {
         
     }
     
-    //MARK: - API
+    //MARK: - Youtibe API
     
-    private func fetchRadio() {
-        
-        let request = SearchListRequest(part: [.snippet], maxResults: 7, pageToken:  nil, searchQuery: "ラジオ",regionCode: "JP")
-        
-        YoutubeAPI.shared.send(request) { (result) in
-            switch result {
-            case .success(let response) :
-                
-                var results = [SearchResult]()
-                for result in response.items {
-                    results.append(result)
-                }
-             
-//                self.videos = results
-//                self.resultArrays.append(results)
-                self.resultArrays.insert(results, at: 0)
-                
-             
-            case .failed(let error) :
-                print(error)
-                self.showErrorAlert(message: error.localizedDescription)
+    private func fetchTrends() {
+        YoutubeService.shared.fetchTrend { (results, error) in
+            
+            if error != nil {
+                self.showErrorAlert(message: error!.localizedDescription)
             }
+            self.resultArrays = results
+            print(self.resultArrays.count)
         }
-        
     }
-    
-    private func fetchAllnight() {
-        
-        let request = SearchListRequest(part: [.snippet], maxResults: 7, pageToken:  nil, searchQuery: "オールナイト",regionCode: "JP")
-        
-        YoutubeAPI.shared.send(request) { (result) in
-            switch result {
-            case .success(let response) :
-                
-                var results = [SearchResult]()
-                for result in response.items {
-                    results.append(result)
-                }
-                
-                self.resultArrays.insert(results, at: 1)
-                
-                
-                
-            case .failed(let error) :
-                print(error)
-                self.showErrorAlert(message: error.localizedDescription)
-            }
-        }
-        
-    }
-    
-    private func fetchJunk() {
-        
-        let request = SearchListRequest(part: [.snippet], maxResults: 7, pageToken:  nil, searchQuery: "JUNK ラジオ",regionCode: "JP")
-        
-        YoutubeAPI.shared.send(request) { (result) in
-            switch result {
-            case .success(let response) :
-                
-                var results = [SearchResult]()
-                for result in response.items {
-                    results.append(result)
-                }
-                
-                //                self.videos = results
-                self.resultArrays.append(results)
-                
-            case .failed(let error) :
-                print(error)
-                self.showErrorAlert(message: error.localizedDescription)
-            }
-        }
-        
-    }
-    
-    
+
+
 }
 extension TrendViewController {
     
@@ -208,13 +132,18 @@ extension TrendViewController : UICollectionViewDelegateFlowLayout {
     }
 }
 
+//MARK: - TrendCell Delegate
+
 extension TrendViewController : TrendCellDelegate {
     
     func didTappedTrend(video: SearchResult) {
         guard let videoId = video.id.videoID else {return}
         
-        let launcher = VideoLauncher(videoId: videoId)
-        self.present(launcher, animated: true, completion: nil)
+//        let launcher = VideoLauncher(videoId: videoId)
+//        self.present(launcher, animated: true, completion: nil)
+        
+        let playView = playbackPlayer(videoId: videoId)
+        present(playView, animated: true, completion: nil)
      
     }
     

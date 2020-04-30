@@ -22,11 +22,11 @@ struct YoutubeService {
                 
                 if error != nil {
                     completion(results, error!)
+                    return
                 }
                 
                 results[i].append(contentsOf: result)
                 completion(results,nil)
-//                results.insert(result, at: i)
                 
             }
             

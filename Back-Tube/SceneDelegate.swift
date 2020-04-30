@@ -41,16 +41,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called when the scene will move from an active state to an inactive state.
         // This may occur due to temporary interruptions (ex. an incoming phone call).
     }
-
+    
     func sceneWillEnterForeground(_ scene: UIScene) {
-        // Called as the scene transitions from the background to the foreground.
-        // Use this method to undo the changes made on entering the background.
+//        guard let scene = (scene as? UIWindowScene) else { return }
+//        window = UIWindow(windowScene: scene)
+//
+//        window?.makeKeyAndVisible()
+        print(window?.rootViewController)
+        //        AVPlayerViewControllerManager.shared.reconnectPlayer(rootViewController: window?.rootViewController)
+        
+
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
-        // Called as the scene transitions from the foreground to the background.
-        // Use this method to save data, release shared resources, and store enough scene-specific state information
-        // to restore the scene back to its current state.
+        print("Background")
+       AVPlayerViewControllerManager.shared.disconnectPlayer()
+
     }
 
 

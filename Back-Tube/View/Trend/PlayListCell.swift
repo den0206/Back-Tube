@@ -24,8 +24,7 @@ class PlayListCell : UICollectionViewCell {
         let iv = UIImageView()
         iv.backgroundColor = .lightGray
         iv.setDimension(width: 150, height: 150)
-       
-//        iv.contentMode = .scaleAspectFill
+        iv.layer.cornerRadius = 35 / 2
         iv.clipsToBounds = true
         
         return iv
@@ -43,6 +42,9 @@ class PlayListCell : UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+//        layer.cornerRadius = 35 / 2
+//
         addSubview(playlistImageView)
         playlistImageView.anchor(top : topAnchor,left: leftAnchor,right: rightAnchor)
         

@@ -27,6 +27,8 @@
 		3AD3EAE62450880900409967 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD3EAE52450880900409967 /* SearchViewController.swift */; };
 		3AE39A4324590BE800FA4177 /* SectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AE39A4224590BE800FA4177 /* SectionHeaderView.swift */; };
 		3AF5CB1F24586E0600F41764 /* TrendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AF5CB1E24586E0600F41764 /* TrendViewController.swift */; };
+		3AFEC7D4245AEBCC00CBFFD2 /* PlaybackPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AFEC7D3245AEBCC00CBFFD2 /* PlaybackPlayer.swift */; };
+		3AFEC7D6245B03B200CBFFD2 /* AVPlayerViewControllerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AFEC7D5245B03B200CBFFD2 /* AVPlayerViewControllerManager.swift */; };
 		E0E737B6ACC7E8CE8A02A802 /* Pods_Back_Tube.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93438D0EE906C13D97D6A08D /* Pods_Back_Tube.framework */; };
 /* End PBXBuildFile section */
 
@@ -54,6 +56,8 @@
 		3AD3EAE52450880900409967 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		3AE39A4224590BE800FA4177 /* SectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeaderView.swift; sourceTree = "<group>"; };
 		3AF5CB1E24586E0600F41764 /* TrendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendViewController.swift; sourceTree = "<group>"; };
+		3AFEC7D3245AEBCC00CBFFD2 /* PlaybackPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackPlayer.swift; sourceTree = "<group>"; };
+		3AFEC7D5245B03B200CBFFD2 /* AVPlayerViewControllerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerViewControllerManager.swift; sourceTree = "<group>"; };
 		4C6937ED7233D25A5B37CC85 /* Pods-Back-Tube.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Back-Tube.release.xcconfig"; path = "Target Support Files/Pods-Back-Tube/Pods-Back-Tube.release.xcconfig"; sourceTree = "<group>"; };
 		93438D0EE906C13D97D6A08D /* Pods_Back_Tube.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Back_Tube.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -112,7 +116,7 @@
 				3A1276FD244DBDD9003A6750 /* HomeController.swift */,
 				3AD3EAE52450880900409967 /* SearchViewController.swift */,
 				3A9C8EC22451C77D00ADA790 /* SearchReslutController.swift */,
-				3AD3EAE124505DEB00409967 /* VideoLauncher.swift */,
+				3AFEC7D2245AEBA600CBFFD2 /* Player */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -123,6 +127,7 @@
 				3AB98C8E2451B07C00086DC1 /* SuggestWord.swift */,
 				3A127700244DC041003A6750 /* Extension.swift */,
 				3A4381A0244DCD7B009DE6F9 /* sec.swift */,
+				3AFEC7D5245B03B200CBFFD2 /* AVPlayerViewControllerManager.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -154,6 +159,15 @@
 				3A3E8B1524588AA000B510AB /* PlayListCell.swift */,
 			);
 			path = Trend;
+			sourceTree = "<group>";
+		};
+		3AFEC7D2245AEBA600CBFFD2 /* Player */ = {
+			isa = PBXGroup;
+			children = (
+				3AD3EAE124505DEB00409967 /* VideoLauncher.swift */,
+				3AFEC7D3245AEBCC00CBFFD2 /* PlaybackPlayer.swift */,
+			);
+			path = Player;
 			sourceTree = "<group>";
 		};
 		54A4C5C4EEB1DE453FE04215 /* Pods */ = {
@@ -294,10 +308,12 @@
 				3AC7155E2453F032003A2C20 /* SearchFooterView.swift in Sources */,
 				3AF5CB1F24586E0600F41764 /* TrendViewController.swift in Sources */,
 				3A3E8B142458851E00B510AB /* TrendCell.swift in Sources */,
+				3AFEC7D4245AEBCC00CBFFD2 /* PlaybackPlayer.swift in Sources */,
 				3AD3EAE62450880900409967 /* SearchViewController.swift in Sources */,
 				3A9C8EC32451C77D00ADA790 /* SearchReslutController.swift in Sources */,
 				3A4381A1244DCD7B009DE6F9 /* sec.swift in Sources */,
 				3AD3EAE224505DEB00409967 /* VideoLauncher.swift in Sources */,
+				3AFEC7D6245B03B200CBFFD2 /* AVPlayerViewControllerManager.swift in Sources */,
 				3AE39A4324590BE800FA4177 /* SectionHeaderView.swift in Sources */,
 				3AB98C8F2451B07C00086DC1 /* SuggestWord.swift in Sources */,
 				3A1276FE244DBDD9003A6750 /* HomeController.swift in Sources */,
