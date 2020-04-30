@@ -22,6 +22,8 @@ class playbackPlayer: UIViewController {
 
     var videoViewHeight : CGFloat?
     
+    var player : AVPlayer?
+    
 
     
     init(videoId : String) {
@@ -51,16 +53,21 @@ class playbackPlayer: UIViewController {
             }
             AVPlayerViewControllerManager.shared.video = video
             self.present(AVPlayerViewControllerManager.shared.controller, animated: true) {
-                AVPlayerViewControllerManager.shared.controller.player?.play()
+                self.player = AVPlayerViewControllerManager.shared.controller.player
+                self.player!.play()
             }
             
         }
         
+        NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: nil, using: willEnterForeground)
+        
+        
+    }
     
-      
-//        configTableView()
-//
-//        fetchRelatedVideos()
+    internal func willEnterForeground(notification : Notification) {
+        print("Foreground")
+        AVPlayerViewControllerManager.shared.reconnectPlayer(rootViewController: self)
+        
         
     }
     

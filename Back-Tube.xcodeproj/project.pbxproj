@@ -126,8 +126,8 @@
 			children = (
 				3AB98C8E2451B07C00086DC1 /* SuggestWord.swift */,
 				3A127700244DC041003A6750 /* Extension.swift */,
-				3A4381A0244DCD7B009DE6F9 /* sec.swift */,
 				3AFEC7D5245B03B200CBFFD2 /* AVPlayerViewControllerManager.swift */,
+				3A4381A0244DCD7B009DE6F9 /* sec.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
