@@ -9,6 +9,7 @@
 
 import UIKit
 import XCDYouTubeKit
+import YoutubeKit
 import AVKit
 
 private let reuseIdentifer = "Cell"
@@ -19,6 +20,13 @@ class playbackPlayer: UIViewController {
     var tableView = UITableView()
     
     var relatedTitle : String?
+    
+    var relatedVideos = [SearchResult]() {
+           didSet {
+               print(relatedVideos.count)
+               tableView.reloadData()
+           }
+       }
 
     var videoViewHeight : CGFloat?
     
@@ -50,8 +58,9 @@ class playbackPlayer: UIViewController {
         super.viewDidLoad()
         
         configVideoPlayer()
+        configTableView()
         
-        
+        fetchRelatedVideos()
     }
     
   
@@ -113,6 +122,11 @@ class playbackPlayer: UIViewController {
         tableView.frame = CGRect(x: 0, y: videoViewHeight!, width: view.frame.width, height: self.view.frame.height - videoViewHeight!)
         
         tableView.rowHeight = 100
+        
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        
         tableView.register(SearchResultCell.self, forCellReuseIdentifier: reuseIdentifer)
         
        
@@ -124,29 +138,63 @@ class playbackPlayer: UIViewController {
     
     private func fetchRelatedVideos() {
         
-//        let request =  SearchListRequest(part: [.snippet], filter: .relatedToVideoID(videoId), maxResults: 7,regionCode: "JP",resourceType: [.video])
-//
-//        print("DEBUG : \(request)")
-//
-//        YoutubeAPI.shared.send(request) { (request) in
-//
-//            switch request {
-//
-//            case .success(let response) :
-//                var results = [SearchResult]()
-//                for result in response.items {
-//                    results.append(result)
-//                }
-//
-//                self.relatedVideos.append(contentsOf: results)
-//
-//            case .failed(let error) :
-//                print(error)
-//            }
-//        }
+        let request =  SearchListRequest(part: [.snippet], filter: .relatedToVideoID(videoId), maxResults: 7,regionCode: "JP",resourceType: [.video])
+
+        print("DEBUG : \(request)")
+
+        YoutubeAPI.shared.send(request) { (request) in
+
+            switch request {
+
+            case .success(let response) :
+                var results = [SearchResult]()
+                for result in response.items {
+                    results.append(result)
+                }
+
+                self.relatedVideos.append(contentsOf: results)
+
+            case .failed(let error) :
+                self.showErrorAlert(message: error.localizedDescription)
+            }
+        }
     }
     
 
+}
+
+extension playbackPlayer : UITableViewDelegate,UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return relatedVideos.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifer, for: indexPath) as! SearchResultCell
+        
+        cell.searchResult = relatedVideos[indexPath.row]
+        
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let result = relatedVideos[indexPath.row]
+        
+        guard let videoId = result.id.videoID else {return}
+        
+        weak var pvc = self.presentingViewController
+        
+        self.dismiss(animated: true) {
+            
+            let playView = playbackPlayer(videoId: videoId)
+            pvc?.present(playView, animated: true, completion: nil)
+        }
+        
+        
+    }
+    
+    
 }
 
 
