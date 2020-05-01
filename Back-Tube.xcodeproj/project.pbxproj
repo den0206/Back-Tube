@@ -164,8 +164,8 @@
 		3AFEC7D2245AEBA600CBFFD2 /* Player */ = {
 			isa = PBXGroup;
 			children = (
-				3AD3EAE124505DEB00409967 /* VideoLauncher.swift */,
 				3AFEC7D3245AEBCC00CBFFD2 /* PlaybackPlayer.swift */,
+				3AD3EAE124505DEB00409967 /* VideoLauncher.swift */,
 			);
 			path = Player;
 			sourceTree = "<group>";

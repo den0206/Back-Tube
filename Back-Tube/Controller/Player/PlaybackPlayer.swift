@@ -22,7 +22,15 @@ class playbackPlayer: UIViewController {
 
     var videoViewHeight : CGFloat?
     
+    let playerViewController = AVPlayerViewControllerManager.shared.controller
     var player : AVPlayer?
+    
+    var videoContainerView : UIView = {
+        let view = UIView()
+        view.backgroundColor = .black
+ 
+        return view
+    }()
     
 
     
@@ -41,9 +49,22 @@ class playbackPlayer: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
+        configVideoPlayer()
         
-        print(videoId)
+        
+    }
+    
+  
+    
+    private func configVideoPlayer() {
+        view.backgroundColor = .white
+      
+        videoViewHeight = view.frame.width * 9 / 16
+
+        videoContainerView.frame =  CGRect(x: 0, y: 0, width: view.frame.width, height: videoViewHeight!)
+        
+        view.addSubview(videoContainerView)
+        
         
         XCDYouTubeClient.default().getVideoWithIdentifier(videoId) { (video, error) in
             
@@ -52,33 +73,38 @@ class playbackPlayer: UIViewController {
                 
             }
             AVPlayerViewControllerManager.shared.video = video
-            self.present(AVPlayerViewControllerManager.shared.controller, animated: true) {
-                self.player = AVPlayerViewControllerManager.shared.controller.player
-                self.player!.play()
+            
+            
+            self.playerViewController.view.frame = self.videoContainerView.bounds
+            self.addChild(self.playerViewController)
+            if let view = self.playerViewController.view {
+                self.videoContainerView.addSubview(view)
             }
             
+            self.playerViewController.didMove(toParent: self)
+            
+            self.playerViewController.player?.play()
+            
+            //            self.present(AVPlayerViewControllerManager.shared.controller, animated: true) {
+            //                self.player = AVPlayerViewControllerManager.shared.controller.player
+            //                self.player!.play()
+            //            }
+            
         }
-        
+        //
         NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: nil, using: willEnterForeground)
         
         
+       
     }
     
     internal func willEnterForeground(notification : Notification) {
-        print("Foreground")
-        AVPlayerViewControllerManager.shared.reconnectPlayer(rootViewController: self)
-        
-        
+
+        AVPlayerViewControllerManager.shared.reconnectPlayer(rootViewController: AVPlayerViewControllerManager.shared.controller)
+
     }
     
-    private func configVideoPlayer() {
-        view.backgroundColor = .white
-        
-        videoViewHeight = view.frame.width * 9 / 16
-
-        
-       
-    }
+    
 
     
     private func configTableView() {

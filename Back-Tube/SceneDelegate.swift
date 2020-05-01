@@ -42,21 +42,31 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This may occur due to temporary interruptions (ex. an incoming phone call).
     }
     
-    func sceneWillEnterForeground(_ scene: UIScene) {
-//        guard let scene = (scene as? UIWindowScene) else { return }
-//        window = UIWindow(windowScene: scene)
+//    func sceneWillEnterForeground(_ scene: UIScene) {
 //
-//        window?.makeKeyAndVisible()
-        print(window?.rootViewController)
-        //        AVPlayerViewControllerManager.shared.reconnectPlayer(rootViewController: window?.rootViewController)
-        
-
-    }
+//        AVPlayerViewControllerManager.shared.reconnectPlayer(rootViewController: getTopViewController()!)
+//        
+//
+//    }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
         print("Background")
        AVPlayerViewControllerManager.shared.disconnectPlayer()
 
+    }
+    
+    func getTopViewController() -> UIViewController? {
+        if let rootViewController = UIWindow.key?.rootViewController {
+            var topViewController: UIViewController = rootViewController
+
+            while let presentedViewController = topViewController.presentedViewController {
+                topViewController = presentedViewController
+            }
+
+            return topViewController
+        } else {
+            return nil
+        }
     }
 
 
