@@ -22,7 +22,16 @@ var window: UIWindow?
         YoutubeKit.shared.setAPIKey(apiKey)
         print(apiKey)
         
-     
+        do {
+            try AVAudioSession.sharedInstance().setCategory(
+                .playback, mode: .default)
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch {
+            print(error)
+        }
+        
+        
+        
         
         return true
     }

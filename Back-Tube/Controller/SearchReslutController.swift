@@ -123,44 +123,17 @@ extension SearchResultController {
         guard let videoId = result.id.videoID else {
             showErrorAlert(message: "ビデオが見つかりません")
             return}
+
         
-        let videoLauncher = VideoLauncher(videoId: videoId)
-        videoLauncher.relatedTitle = result.snippet.title
-        present(videoLauncher, animated: true, completion: nil)
+        let playView = playbackPlayer(videoId: videoId)
+        playView.relatedTitle = searchWord
+        present(playView, animated: true, completion: nil)
+        
     }
     
     /// more button
     
-//    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-//
-//        guard let toatlResultCount = toatlResultCount else {return  UIView()}
-//
-//        if toatlResultCount >= searchResults.count {
-//
-//            let footerView = SearchFooterView()
-//
-//            footerView.delegate = self
-//
-//            return footerView
-//
-//        }
-//
-//        return UIView()
-//    }
-//
-// 
-//
-//    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-//
-//        guard let toatlResultCount = toatlResultCount else {return  0}
-//
-//        if toatlResultCount >= searchResults.count {
-//             return 50
-//        }
-//
-//        return 0
-//
-//    }
+
     
 }
 

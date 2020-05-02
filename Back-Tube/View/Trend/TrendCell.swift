@@ -11,7 +11,7 @@ import YoutubeKit
 
 protocol TrendCellDelegate {
     func didTappedTrend(video : SearchResult)
-    func didScrollCell(indexPath : IndexPath)
+    func didScrollCell(cv : UICollectionView, cell : TrendCell, indexPath : IndexPath)
 }
 
 
@@ -23,21 +23,11 @@ class TrendCell : UICollectionViewCell {
     var delegate : TrendCellDelegate?
     
     var cellType : TrendCellType?
+    
+
     /// Uiimage Arrays
     
     //MARK: - Vars
-    
-    var videos = [SearchResult]() {
-        didSet {
-            collectionView.reloadData()
-        }
-    }
-    
-    var arrays = [[SearchResult]]()
-    /// cell.video = arrays[indexPath.section]
-    //MARK: - Parts
-//
-
     let collectionView : UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -51,8 +41,6 @@ class TrendCell : UICollectionViewCell {
         super.init(frame: frame)
         /// add subCV
         
-       
-        
         addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -60,6 +48,10 @@ class TrendCell : UICollectionViewCell {
         collectionView.register(WeeklyCell.self, forCellWithReuseIdentifier: resuseWeeklyIdentifer)
         
         collectionView.anchor(top : topAnchor,left : leftAnchor,bottom: bottomAnchor,right: rightAnchor)
+        
+    
+       
+        
     }
     
     required init?(coder: NSCoder) {
@@ -83,6 +75,7 @@ extension TrendCell : UICollectionViewDelegate, UICollectionViewDataSource, UICo
  
         switch celltype {
         case .week :
+            
             weeklyCell.weekLabel.text = weekleArray[indexPath.item]
 
             return weeklyCell
@@ -93,8 +86,11 @@ extension TrendCell : UICollectionViewDelegate, UICollectionViewDataSource, UICo
 
         }
         
+        
         return cell
     }
+    
+ 
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: frame.height, height: frame.height)
@@ -102,25 +98,43 @@ extension TrendCell : UICollectionViewDelegate, UICollectionViewDataSource, UICo
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        delegate?.didScrollCell(cv: collectionView, cell: self, indexPath: indexPath)
+        
         var radio : Radio?
         switch cellType {
-        case .week :
-            
-            collectionView.scrollToItem(at: indexPath, at: .left, animated: true)
-//            delegate?.didScrollCell(indexPath: indexPath)
-           
+
         case .allnight :
             radio = allnights[indexPath.item]
+
         case .junk :
             radio = junks[indexPath.item]
-        case .none:
+        default :
             return
+
+
         }
-        
+
+
         guard let searchTitle = radio?.title else {return}
         print(searchTitle)
         
     }
     
     
+ 
+    
+   
 }
+
+extension UICollectionView {
+    func nowPosition(cell : UICollectionViewCell) -> CGRect {
+        let point = CGPoint(x: cell.frame.origin.x - self.contentOffset.x, y: cell.frame.origin.y - self.contentOffset.y)
+        let size = cell.bounds.size
+        
+        return CGRect(x: point.x, y: point.y, width: size.width, height: size.height)
+    }
+    
+    
+    
+}
+

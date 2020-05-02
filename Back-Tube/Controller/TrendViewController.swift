@@ -111,6 +111,7 @@ extension TrendViewController {
         default:
             cell.cellType = .none
         }
+        
 //        if resultArrays.count == 3 {
 //            cell.videos = resultArrays[indexPath.section]
 //        }
@@ -153,9 +154,14 @@ extension TrendViewController : UICollectionViewDelegateFlowLayout {
 //MARK: - TrendCell Delegate
 
 extension TrendViewController : TrendCellDelegate {
-    func didScrollCell(indexPath: IndexPath) {
-        collectionView.scrollToItem(at: indexPath, at: .left, animated: true)
+    func didScrollCell(cv: UICollectionView, cell: TrendCell, indexPath: IndexPath) {
+        cell.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+      
+//        cell.collectionView.scrollToItem(at: IndexPath(item: indexPath.item, section: index!) , at: .centeredHorizontally, animated: true)
+        
+        
     }
+    
     
     
     func didTappedTrend(video: SearchResult) {
@@ -171,3 +177,20 @@ extension TrendViewController : TrendCellDelegate {
     
     
 }
+
+extension UICollectionView {
+    func scrollToNextItem() {
+        let contentOffset = CGFloat(floor(self.contentOffset.x + self.bounds.size.width))
+        self.moveToFrame(contentOffset: contentOffset)
+    }
+
+    func scrollToPreviousItem() {
+        let contentOffset = CGFloat(floor(self.contentOffset.x - self.bounds.size.width))
+        self.moveToFrame(contentOffset: contentOffset)
+    }
+
+    func moveToFrame(contentOffset : CGFloat) {
+        self.setContentOffset(CGPoint(x: contentOffset, y: self.contentOffset.y), animated: true)
+    }
+}
+
