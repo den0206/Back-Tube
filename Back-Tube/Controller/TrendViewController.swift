@@ -12,16 +12,22 @@ import YoutubeKit
 private let resuseIdentifer = "TrendCell"
 private let headerIdentifer = "SectionHeader"
 
+enum TrendCellType {
+    case week
+    case allnight
+    case junk
+}
+
 class TrendViewController : UICollectionViewController {
-    
-    var resultArrays = [[SearchResult]]() {
-        didSet {
-            if resultArrays.count == 3 {
-                print(resultArrays.count)
-                collectionView.reloadData()
-            }
-        }
-    }
+//
+//    var resultArrays = [[SearchResult]]() {
+//        didSet {
+//            if resultArrays.count == 3 {
+//                print(resultArrays.count)
+//                collectionView.reloadData()
+//            }
+//        }
+//    }
     
 //    private  var videos = [SearchResult]() {
 //        didSet {
@@ -44,7 +50,7 @@ class TrendViewController : UICollectionViewController {
         super.viewDidLoad()
        
         configureCV()
-        fetchTrends()
+//        fetchTrends()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -66,16 +72,16 @@ class TrendViewController : UICollectionViewController {
     
     //MARK: - Youtibe API
     
-    private func fetchTrends() {
-        YoutubeService.shared.fetchTrend { (results, error) in
-            
-            if error != nil {
-                self.showErrorAlert(message: error!.localizedDescription)
-            }
-            self.resultArrays = results
-            print(self.resultArrays.count)
-        }
-    }
+//    private func fetchTrends() {
+//        YoutubeService.shared.fetchTrend { (results, error) in
+//
+//            if error != nil {
+//                self.showErrorAlert(message: error!.localizedDescription)
+//            }
+//            self.resultArrays = results
+//            print(self.resultArrays.count)
+//        }
+//    }
 
 
 }
@@ -93,9 +99,21 @@ extension TrendViewController {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: resuseIdentifer, for: indexPath) as! TrendCell
         
         cell.delegate = self
-        if resultArrays.count == 3 {
-            cell.videos = resultArrays[indexPath.section]
+        
+        switch indexPath.section {
+        case 0:
+            cell.cellType = .week
+        case 1 :
+            cell.cellType = .allnight
+        case 2:
+            cell.cellType = .junk
+     
+        default:
+            cell.cellType = .none
         }
+//        if resultArrays.count == 3 {
+//            cell.videos = resultArrays[indexPath.section]
+//        }
 //
        
         return cell
@@ -135,6 +153,10 @@ extension TrendViewController : UICollectionViewDelegateFlowLayout {
 //MARK: - TrendCell Delegate
 
 extension TrendViewController : TrendCellDelegate {
+    func didScrollCell(indexPath: IndexPath) {
+        collectionView.scrollToItem(at: indexPath, at: .left, animated: true)
+    }
+    
     
     func didTappedTrend(video: SearchResult) {
         guard let videoId = video.id.videoID else {return}

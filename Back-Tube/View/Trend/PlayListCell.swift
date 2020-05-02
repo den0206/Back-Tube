@@ -11,16 +11,22 @@ import YoutubeKit
 import SDWebImage
 
 class PlayListCell : UICollectionViewCell {
-    
-    var video : SearchResult? {
+
+    var radio : Radio? {
         didSet {
             configure()
         }
     }
-    
+ 
     //MARK: - Parts
     
-    private let playlistImageView : UIImageView = {
+    let weeklyLable : UILabel? = {
+        let label = UILabel()
+        label.text = "Weekly"
+        return label
+    }()
+    
+    let playlistImageView : UIImageView = {
         let iv = UIImageView()
         iv.backgroundColor = .lightGray
         iv.setDimension(width: 150, height: 150)
@@ -43,13 +49,15 @@ class PlayListCell : UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-//        layer.cornerRadius = 35 / 2
-//
+        
         addSubview(playlistImageView)
         playlistImageView.anchor(top : topAnchor,left: leftAnchor,right: rightAnchor)
         
         addSubview(titleLabel)
             titleLabel.anchor(top : playlistImageView.bottomAnchor, left: leftAnchor, right: rightAnchor,paddongTop: 10,paddingLeft: 8,paddingRight: 8)
+        
+        
+        
     }
     
     required init?(coder: NSCoder) {
@@ -58,13 +66,21 @@ class PlayListCell : UICollectionViewCell {
     
     private func configure() {
         
-     guard let searchResult =  video else {return}
-     titleLabel.text = searchResult.snippet.title
-     
-     guard let thumanail = searchResult.snippet.thumbnails.medium.url else {return}
-     let url = URL(string: thumanail)
-     
-     playlistImageView.sd_setImage(with: url)
-     
+        guard let radio = radio else {return}
+        titleLabel.text = radio.title
+        playlistImageView.image = radio.thumbnailImage
     }
+    
+ 
+//    private func configure() {
+//
+//     guard let searchResult =  video else {return}
+//     titleLabel.text = searchResult.snippet.title
+//
+//     guard let thumanail = searchResult.snippet.thumbnails.medium.url else {return}
+//     let url = URL(string: thumanail)
+//
+//     playlistImageView.sd_setImage(with: url)
+//
+//    }
 }

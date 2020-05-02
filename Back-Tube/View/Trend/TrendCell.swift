@@ -11,14 +11,19 @@ import YoutubeKit
 
 protocol TrendCellDelegate {
     func didTappedTrend(video : SearchResult)
+    func didScrollCell(indexPath : IndexPath)
 }
 
 
 private let resuseIdentifer = "SubCell"
+private let resuseWeeklyIdentifer = "WeeklyCell"
 
 class TrendCell : UICollectionViewCell {
     
     var delegate : TrendCellDelegate?
+    
+    var cellType : TrendCellType?
+    /// Uiimage Arrays
     
     //MARK: - Vars
     
@@ -46,10 +51,14 @@ class TrendCell : UICollectionViewCell {
         super.init(frame: frame)
         /// add subCV
         
+       
+        
         addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(PlayListCell.self, forCellWithReuseIdentifier: resuseIdentifer)
+        collectionView.register(WeeklyCell.self, forCellWithReuseIdentifier: resuseWeeklyIdentifer)
+        
         collectionView.anchor(top : topAnchor,left : leftAnchor,bottom: bottomAnchor,right: rightAnchor)
     }
     
@@ -60,19 +69,30 @@ class TrendCell : UICollectionViewCell {
 
 extension TrendCell : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//
-//        switch arrays[section] {
-//        default:
-//           return arrays[section].count
-//        }
-        return videos.count
+
+        return 6
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: resuseIdentifer, for: indexPath) as! PlayListCell
         
-        cell.video = videos[indexPath.item]
+        let weeklyCell = collectionView.dequeueReusableCell(withReuseIdentifier: resuseWeeklyIdentifer, for: indexPath) as! WeeklyCell
+        
+        guard let celltype = cellType else {return cell}
+ 
+        switch celltype {
+        case .week :
+            weeklyCell.weekLabel.text = weekleArray[indexPath.item]
+
+            return weeklyCell
+        case .allnight:
+            cell.radio = allnights[indexPath.row]
+        case .junk :
+            cell.radio = junks[indexPath.item]
+
+        }
+        
         return cell
     }
     
@@ -82,9 +102,24 @@ extension TrendCell : UICollectionViewDelegate, UICollectionViewDataSource, UICo
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        let video = videos[indexPath.item]
-        delegate?.didTappedTrend(video: video)
-      
+        var radio : Radio?
+        switch cellType {
+        case .week :
+            
+            collectionView.scrollToItem(at: indexPath, at: .left, animated: true)
+//            delegate?.didScrollCell(indexPath: indexPath)
+           
+        case .allnight :
+            radio = allnights[indexPath.item]
+        case .junk :
+            radio = junks[indexPath.item]
+        case .none:
+            return
+        }
+        
+        guard let searchTitle = radio?.title else {return}
+        print(searchTitle)
+        
     }
     
     

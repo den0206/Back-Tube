@@ -19,6 +19,8 @@
 		3A9C8EC32451C77D00ADA790 /* SearchReslutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A9C8EC22451C77D00ADA790 /* SearchReslutController.swift */; };
 		3AB95AD024594C6B0045FBF1 /* YoutubeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB95ACF24594C6B0045FBF1 /* YoutubeService.swift */; };
 		3AB98C8F2451B07C00086DC1 /* SuggestWord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB98C8E2451B07C00086DC1 /* SuggestWord.swift */; };
+		3ABC80AA245D057E0053BEA9 /* Radio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ABC80A9245D057E0053BEA9 /* Radio.swift */; };
+		3AC31561245D276200890AC7 /* WeeklyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC31560245D276200890AC7 /* WeeklyCell.swift */; };
 		3AC7155E2453F032003A2C20 /* SearchFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC7155D2453F032003A2C20 /* SearchFooterView.swift */; };
 		3AC935E824531EB10032F2C7 /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC935E724531EB10032F2C7 /* SearchResultCell.swift */; };
 		3AC9FA15244F0D8E00CE51F8 /* VideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC9FA14244F0D8E00CE51F8 /* VideoCell.swift */; };
@@ -48,6 +50,8 @@
 		3A9C8EC22451C77D00ADA790 /* SearchReslutController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchReslutController.swift; sourceTree = "<group>"; };
 		3AB95ACF24594C6B0045FBF1 /* YoutubeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeService.swift; sourceTree = "<group>"; };
 		3AB98C8E2451B07C00086DC1 /* SuggestWord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestWord.swift; sourceTree = "<group>"; };
+		3ABC80A9245D057E0053BEA9 /* Radio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Radio.swift; sourceTree = "<group>"; };
+		3AC31560245D276200890AC7 /* WeeklyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyCell.swift; sourceTree = "<group>"; };
 		3AC7155D2453F032003A2C20 /* SearchFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFooterView.swift; sourceTree = "<group>"; };
 		3AC935E724531EB10032F2C7 /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
 		3AC9FA14244F0D8E00CE51F8 /* VideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCell.swift; sourceTree = "<group>"; };
@@ -96,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				3A1276E9244DBD61003A6750 /* AppDelegate.swift */,
+				3ABC80AB245D058D0053BEA9 /* Model */,
 				3AC9FA16244F0D9600CE51F8 /* View */,
 				3A1276FF244DBDEE003A6750 /* Controller */,
 				3AB95ACE24594C560045FBF1 /* API */,
@@ -140,6 +145,14 @@
 			path = API;
 			sourceTree = "<group>";
 		};
+		3ABC80AB245D058D0053BEA9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3ABC80A9245D057E0053BEA9 /* Radio.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		3AC9FA16244F0D9600CE51F8 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -157,6 +170,7 @@
 				3AE39A4224590BE800FA4177 /* SectionHeaderView.swift */,
 				3A3E8B132458851E00B510AB /* TrendCell.swift */,
 				3A3E8B1524588AA000B510AB /* PlayListCell.swift */,
+				3AC31560245D276200890AC7 /* WeeklyCell.swift */,
 			);
 			path = Trend;
 			sourceTree = "<group>";
@@ -303,6 +317,7 @@
 			files = (
 				3A127701244DC041003A6750 /* Extension.swift in Sources */,
 				3AB95AD024594C6B0045FBF1 /* YoutubeService.swift in Sources */,
+				3AC31561245D276200890AC7 /* WeeklyCell.swift in Sources */,
 				3AC9FA15244F0D8E00CE51F8 /* VideoCell.swift in Sources */,
 				3AD3EAE4245086C100409967 /* MainTabController.swift in Sources */,
 				3AC7155E2453F032003A2C20 /* SearchFooterView.swift in Sources */,
@@ -312,6 +327,7 @@
 				3AD3EAE62450880900409967 /* SearchViewController.swift in Sources */,
 				3A9C8EC32451C77D00ADA790 /* SearchReslutController.swift in Sources */,
 				3A4381A1244DCD7B009DE6F9 /* sec.swift in Sources */,
+				3ABC80AA245D057E0053BEA9 /* Radio.swift in Sources */,
 				3AD3EAE224505DEB00409967 /* VideoLauncher.swift in Sources */,
 				3AFEC7D6245B03B200CBFFD2 /* AVPlayerViewControllerManager.swift in Sources */,
 				3AE39A4324590BE800FA4177 /* SectionHeaderView.swift in Sources */,
