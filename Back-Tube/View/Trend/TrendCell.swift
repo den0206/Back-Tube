@@ -10,8 +10,9 @@ import UIKit
 import YoutubeKit
 
 protocol TrendCellDelegate {
-    func didTappedTrend(video : SearchResult)
-    func didScrollCell(cv : UICollectionView, cell : TrendCell, indexPath : IndexPath)
+    
+    func didScrollCell(cell : TrendCell, indexPath : IndexPath)
+    func didTappedRadio(title : String)
 }
 
 
@@ -98,7 +99,7 @@ extension TrendCell : UICollectionViewDelegate, UICollectionViewDataSource, UICo
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        delegate?.didScrollCell(cv: collectionView, cell: self, indexPath: indexPath)
+        delegate?.didScrollCell(cell: self, indexPath: indexPath)
         
         var radio : Radio?
         switch cellType {
@@ -114,9 +115,9 @@ extension TrendCell : UICollectionViewDelegate, UICollectionViewDataSource, UICo
 
         }
 
-
         guard let searchTitle = radio?.title else {return}
-        print(searchTitle)
+        
+        delegate?.didTappedRadio(title: searchTitle)
         
     }
     

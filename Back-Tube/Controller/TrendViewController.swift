@@ -154,26 +154,20 @@ extension TrendViewController : UICollectionViewDelegateFlowLayout {
 //MARK: - TrendCell Delegate
 
 extension TrendViewController : TrendCellDelegate {
-    func didScrollCell(cv: UICollectionView, cell: TrendCell, indexPath: IndexPath) {
+   
+    func didScrollCell(cell: TrendCell, indexPath: IndexPath) {
         cell.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-      
-//        cell.collectionView.scrollToItem(at: IndexPath(item: indexPath.item, section: index!) , at: .centeredHorizontally, animated: true)
-        
+            
         
     }
     
-    
-    
-    func didTappedTrend(video: SearchResult) {
-        guard let videoId = video.id.videoID else {return}
-        
-//        let launcher = VideoLauncher(videoId: videoId)
-//        self.present(launcher, animated: true, completion: nil)
-        
-        let playView = playbackPlayer(videoId: videoId)
-        present(playView, animated: true, completion: nil)
-     
+    func didTappedRadio(title: String) {
+        let resultVC = SearchResultController(_searchWord: title)
+        navigationController?.pushViewController(resultVC, animated: true)
     }
+    
+       
+    
     
     
 }

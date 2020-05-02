@@ -10,17 +10,22 @@ import Foundation
 import UIKit
 
 class Radio {
-    let title : String
-       let thumbnailImage : UIImage
-       
-       init(title : String, thumbnailImage : UIImage) {
-           self.title = title
-           self.thumbnailImage = thumbnailImage
-       }
+    var title : String
+    let thumbnailImage : UIImage
+    
+    init(title : String, thumbnailImage : UIImage) {
+        self.title = title
+        self.thumbnailImage = thumbnailImage
+    }
 }
 
 class Allnight : Radio{
-
+    override init(title: String, thumbnailImage: UIImage) {
+        super.init(title: title, thumbnailImage: thumbnailImage)
+        self.title += " オールナイト"
+        
+    }
+    
 }
 
 let allnights : [Allnight] = [
@@ -40,6 +45,12 @@ let allnightArray : [UIImage] = [UIImage(named: "allnight-mon")!,
                                  UIImage(named: "allnight-sat")!]
 
 class Junk  : Radio{
+    override init(title: String, thumbnailImage: UIImage) {
+        super.init(title: title, thumbnailImage: thumbnailImage)
+        self.title += " Junk"
+        
+    }
+   
 }
 
 let junks : [Junk] = [
@@ -61,5 +72,7 @@ let weekleArray : [String] = [
     "金",
     "土"
 ]
+
+
 
 

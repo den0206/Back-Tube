@@ -49,6 +49,13 @@ class SearchResultController: UITableViewController {
         
         
     }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.navigationBar.isHidden = false
+        title = searchWord
+        navigationController?.navigationBar.tintColor = .black
+    }
     
     private func configureTableView() {
         tableView.backgroundColor = .white
