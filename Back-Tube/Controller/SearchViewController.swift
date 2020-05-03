@@ -16,9 +16,9 @@ class SearchViewController : UITableViewController {
     var suggestionsWords = [String]() {
         didSet {
 //
-//            DispatchQueue.main.async {
-//                self.tableView.reloadData()
-//            }
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
         }
     }
     
@@ -179,7 +179,7 @@ class SearchViewController : UITableViewController {
         let deleteActiuon = UIContextualAction(style: .destructive, title: "削除") { (action, view, completion) in
             
             
-            self.deleteHIstory(index: indexPath.row)
+            self.deleteHistory(index: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
             completion(true)
         }
@@ -205,21 +205,21 @@ extension SearchViewController : UISearchResultsUpdating, UISearchBarDelegate {
     @objc func serachSuggestions() {
         APISearvice.suggestWordRequest(suggestWord: searchController.searchBar.text!) { (suggestions, error) in
             
-            self.suggestionsWords.removeAll()
-//
+            self.suggestionsWords.removeAll(keepingCapacity: false)
+            
             if error != nil {
-
+                
                 DispatchQueue.main.async {
                     self.showErrorAlert(message: error!.localizedDescription)
                 }
-
+                
                 self.suggestionsWords = suggestions
                 return
             }
-
+            
             
             self.suggestionsWords = suggestions
-            self.tableView.reloadData()
+            
             
         }
         
@@ -238,7 +238,7 @@ extension SearchViewController : UISearchResultsUpdating, UISearchBarDelegate {
         
         
     }
-    
+
     
     //MARK: - Histror Words
     
@@ -269,7 +269,7 @@ extension SearchViewController : UISearchResultsUpdating, UISearchBarDelegate {
         tableView.reloadData()
     }
     
-    private func deleteHIstory(index : Int) {
+    private func deleteHistory(index : Int) {
         histrories.remove(at: index)
         userDefault.set(histrories, forKey: "inputHistory")
     }

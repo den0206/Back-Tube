@@ -50,8 +50,8 @@ class TrendViewController : UICollectionViewController {
         collectionView.register(TrendCell.self, forCellWithReuseIdentifier: resuseIdentifer)
         collectionView.register(SectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifer)
         
-        collectionView.contentInset = UIEdgeInsets(top: 25, left: 0, bottom: 0, right: 0)
-        collectionView.scrollIndicatorInsets = UIEdgeInsets(top: 25, left: 0, bottom: 0, right: 0)
+        collectionView.contentInset = UIEdgeInsets(top: 25, left: 0, bottom: 100, right: 0)
+        collectionView.scrollIndicatorInsets = UIEdgeInsets(top: 25, left: 0, bottom: 100, right: 0)
         
     }
     

@@ -60,6 +60,10 @@ class SearchResultController: UITableViewController {
         tableView.backgroundColor = .white
         tableView.rowHeight = 100
         
+        /// avoid overlay playerView
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 100, right: 0)
+        tableView.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: 100, right: 0)
+        
 //        tableView.tableFooterView = UIView()
         let footer = SearchFooterView()
         footer.delegate = self

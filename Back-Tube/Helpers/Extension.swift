@@ -98,6 +98,8 @@ extension UIColor {
     static func rgb(red : CGFloat, green : CGFloat, blue : CGFloat) -> UIColor {
         return UIColor(red: red/255, green: green/255, blue: blue/255, alpha: 1)
     }
+    
+    static let backGroundColor = UIColor.init(red: 25/255, green: 25/255, blue: 25/255, alpha: 1)
 }
 
 extension URL {

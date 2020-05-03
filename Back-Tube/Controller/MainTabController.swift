@@ -10,13 +10,26 @@ import UIKit
 
 class MainTabController : UITabBarController {
     
+    /// playerView
+    private let playerView = PlayerView()
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .lightGray
         
         configureTabController()
         
+        
     }
+    
+    override func viewWillLayoutSubviews() {
+        
+        configurePlayerView()
+    }
+    
+    //MARK: - UI
     
     func configureTabController() {
         
@@ -31,6 +44,18 @@ class MainTabController : UITabBarController {
         
         UITabBar.appearance().tintColor = .red
         tabBar.unselectedItemTintColor = .white
+    }
+    
+    private func configurePlayerView() {
+        
+        ///ios11 以降
+//        let tabvarHeight = self.tabBar.frame.height + self.view.safeAreaInsets.bottom
+        view.addSubview(playerView)
+        
+
+//        playerView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 100)
+        playerView.anchor(bottom : self.tabBar.topAnchor, width: view.frame.width,height: 100)
+   
     }
     
     private func templetaNavigationController(image : UIImage?, title :String, rootController : UIViewController) -> UINavigationController {
