@@ -11,6 +11,8 @@ private let reuseIdentifer = "Cell"
 
 class SearchViewController : UITableViewController {
     
+    let userDefault = UserDefaults.standard
+    
     var suggestionsWords = [String]() {
         didSet {
             
@@ -19,6 +21,15 @@ class SearchViewController : UITableViewController {
             }
         }
     }
+    
+    var histrories = [String]() {
+        didSet {
+            tableView.reloadData()
+        }
+    }
+    
+    
+
     
     var timer : Timer?
     
@@ -36,13 +47,18 @@ class SearchViewController : UITableViewController {
     private func configureNav() {
         view.backgroundColor = .white
         navigationItem.searchController = searchController
+        /// initial Set
+        navigationItem.hidesSearchBarWhenScrolling = false
         
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
         searchController.searchBar.showsCancelButton = true
         searchController.searchBar.sizeToFit()
+        
         definesPresentationContext = true
+        
+        histrories = getHistories()
         
         
     }
@@ -56,40 +72,83 @@ class SearchViewController : UITableViewController {
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        var numberOfSections : Int = 0
         
+        return 1
+
+//        var numberOfSections : Int = 0
+//
+//        if !suggestionsWords.isEmpty {
+//            numberOfSections = 1
+//            tableView.backgroundView = nil
+//        } else {
+//
+//            let noDataLabel: UILabel  = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
+//            noDataLabel.text          = "検索候補はありません"
+//            noDataLabel.textColor     = UIColor.black
+//            noDataLabel.textAlignment = .center
+//            tableView.backgroundView  = noDataLabel
+//            tableView.separatorStyle  = .none
+//        }
+//
+//        return numberOfSections
+    }
+//
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if !suggestionsWords.isEmpty {
-            numberOfSections = 1
-            tableView.backgroundView = nil
+            return suggestionsWords.count
+
         } else {
-            let noDataLabel: UILabel  = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
-            noDataLabel.text          = "検索候補はありません"
-            noDataLabel.textColor     = UIColor.black
-            noDataLabel.textAlignment = .center
-            tableView.backgroundView  = noDataLabel
-            tableView.separatorStyle  = .none
+            return histrories.count
         }
         
-        return numberOfSections
-    }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return suggestionsWords.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifer, for: indexPath)
         
-        cell.textLabel?.text = suggestionsWords[indexPath.row]
+        var word : String
+        if !suggestionsWords.isEmpty {
+            word = suggestionsWords[indexPath.row]
+        } else {
+            word = histrories[indexPath.row]
+        }
+        
+        cell.textLabel?.text = word
         
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let word = suggestionsWords[indexPath.row]
+        
+        var word : String
+        
+        if !suggestionsWords.isEmpty {
+            word = suggestionsWords[indexPath.row]
+        } else {
+            word = histrories[indexPath.row]
+        }
+        
         
         let resultVC = SearchResultController(_searchWord: word)
         navigationController?.pushViewController(resultVC, animated: true)
+    }
+    
+    
+    /// header
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if !suggestionsWords.isEmpty {
+            return " "
+        }
+        
+         return "検索履歴"
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if !suggestionsWords.isEmpty {
+            return 0
+        }
+        
+        return 35
     }
 }
 
@@ -111,15 +170,15 @@ extension SearchViewController : UISearchResultsUpdating, UISearchBarDelegate {
             self.suggestionsWords.removeAll()
             
             if error != nil {
-                
+
                 DispatchQueue.main.async {
                     self.showErrorAlert(message: error!.localizedDescription)
                 }
-                
+
                 self.suggestionsWords = suggestions
                 return
             }
-            
+
             
             self.suggestionsWords = suggestions
             
@@ -132,10 +191,38 @@ extension SearchViewController : UISearchResultsUpdating, UISearchBarDelegate {
         
         guard let word = searchBar.text else {return}
         
+        /// add User Default for history
+        addHistory(word: word)
+        
         let resultVC = SearchResultController(_searchWord: word)
         navigationController?.pushViewController(resultVC, animated: true)
         
         
+    }
+    
+    //MARK: - Histror Words
+    
+    private func getHistories() -> [String] {
+        if let histrories = userDefault.array(forKey: "inputHistory") as? [String] {
+            return histrories
+        }
+        
+        return [String]()
+    }
+    
+    private func addHistory(word : String) {
+        var histories = getHistories()
+        
+        for history in histories {
+            if word == history {
+                return
+            }
+        }
+        
+        histories.insert(word, at: 0)
+        userDefault.set(histories, forKey: "inputHistory")
+        
+        tableView.reloadData()
     }
     
     

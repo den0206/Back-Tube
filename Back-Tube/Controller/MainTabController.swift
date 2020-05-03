@@ -16,6 +16,7 @@ class MainTabController : UITabBarController {
         view.backgroundColor = .lightGray
         
         configureTabController()
+        
     }
     
     func configureTabController() {
