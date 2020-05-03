@@ -19,23 +19,8 @@ enum TrendCellType {
 }
 
 class TrendViewController : UICollectionViewController {
-//
-//    var resultArrays = [[SearchResult]]() {
-//        didSet {
-//            if resultArrays.count == 3 {
-//                print(resultArrays.count)
-//                collectionView.reloadData()
-//            }
-//        }
-//    }
-    
-//    private  var videos = [SearchResult]() {
-//        didSet {
-////            print(videos)
-//            collectionView.reloadData()
-//        }
-//    }
-//
+
+
     var sectionTitles : [String] = ["All", "AllNight", "Junk"]
 
     init() {
@@ -144,9 +129,15 @@ extension TrendViewController : UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
+        if indexPath.section == 0 {
+            return CGSize(width: view.frame.width, height: 100)
+        }
+        
         return CGSize(width: view.frame.width, height: 200)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        
+       
         return 50
     }
 }

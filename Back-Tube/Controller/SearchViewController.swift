@@ -22,11 +22,7 @@ class SearchViewController : UITableViewController {
         }
     }
     
-    var histrories = [String]() {
-        didSet {
-            tableView.reloadData()
-        }
-    }
+    var histrories = [String]()
     
     
 
@@ -45,7 +41,7 @@ class SearchViewController : UITableViewController {
     }
     
     private func configureNav() {
-        view.backgroundColor = .white
+        view.backgroundColor = .black
         navigationItem.searchController = searchController
         /// initial Set
         navigationItem.hidesSearchBarWhenScrolling = false
@@ -59,6 +55,7 @@ class SearchViewController : UITableViewController {
         definesPresentationContext = true
         
         histrories = getHistories()
+        tableView.reloadData()
         
         
     }
@@ -71,10 +68,9 @@ class SearchViewController : UITableViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifer)
     }
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        
-        return 1
-
+//    override func numberOfSections(in tableView: UITableView) -> Int {
+//
+//
 //        var numberOfSections : Int = 0
 //
 //        if !suggestionsWords.isEmpty {
@@ -91,10 +87,10 @@ class SearchViewController : UITableViewController {
 //        }
 //
 //        return numberOfSections
-    }
-//
+//    }
+////
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if !suggestionsWords.isEmpty {
+        if !suggestionsWords.isEmpty, searchController.isActive  {
             return suggestionsWords.count
 
         } else {
@@ -107,7 +103,7 @@ class SearchViewController : UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifer, for: indexPath)
         
         var word : String
-        if !suggestionsWords.isEmpty {
+        if !suggestionsWords.isEmpty, searchController.isActive  {
             word = suggestionsWords[indexPath.row]
         } else {
             word = histrories[indexPath.row]
@@ -122,7 +118,7 @@ class SearchViewController : UITableViewController {
         
         var word : String
         
-        if !suggestionsWords.isEmpty {
+        if !suggestionsWords.isEmpty,searchController.isActive  {
             word = suggestionsWords[indexPath.row]
         } else {
             word = histrories[indexPath.row]
@@ -149,6 +145,25 @@ class SearchViewController : UITableViewController {
         }
         
         return 35
+    }
+    
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        if !suggestionsWords.isEmpty {
+            return nil
+        }
+        
+        let deleteActiuon = UIContextualAction(style: .destructive, title: "削除") { (action, view, completion) in
+            
+            
+            self.deleteHIstory(index: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            completion(true)
+        }
+        
+        let configuration = UISwipeActionsConfiguration(actions: [deleteActiuon])
+        return configuration
+        
     }
 }
 
@@ -200,6 +215,7 @@ extension SearchViewController : UISearchResultsUpdating, UISearchBarDelegate {
         
     }
     
+    
     //MARK: - Histror Words
     
     private func getHistories() -> [String] {
@@ -219,10 +235,19 @@ extension SearchViewController : UISearchResultsUpdating, UISearchBarDelegate {
             }
         }
         
+        if histories.count == 10 {
+            histories.removeLast()
+        }
+        
         histories.insert(word, at: 0)
         userDefault.set(histories, forKey: "inputHistory")
         
         tableView.reloadData()
+    }
+    
+    private func deleteHIstory(index : Int) {
+        histrories.remove(at: index)
+        userDefault.set(histrories, forKey: "inputHistory")
     }
     
     
