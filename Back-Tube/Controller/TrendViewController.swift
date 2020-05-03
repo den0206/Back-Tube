@@ -45,7 +45,7 @@ class TrendViewController : UICollectionViewController {
     
     private func configureCV() {
         
-        view.backgroundColor = .black
+        view.backgroundColor = #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1)
         
         collectionView.register(TrendCell.self, forCellWithReuseIdentifier: resuseIdentifer)
         collectionView.register(SectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifer)

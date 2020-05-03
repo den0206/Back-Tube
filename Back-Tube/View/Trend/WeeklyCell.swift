@@ -15,7 +15,7 @@ class WeeklyCell : UICollectionViewCell {
         let label = UILabel()
         label.text = "月"
         label.textColor = .white
-        label.font = UIFont.boldSystemFont(ofSize: 45)
+        label.font = UIFont.boldSystemFont(ofSize: 25)
         return label
     }()
     
@@ -24,6 +24,10 @@ class WeeklyCell : UICollectionViewCell {
         
         addSubview(weekLabel)
         weekLabel.center(inView: self)
+        
+        layer.cornerRadius = 35 / 2
+        layer.borderColor = UIColor.white.cgColor
+        layer.borderWidth = 2
     }
     
     required init?(coder: NSCoder) {

@@ -15,17 +15,14 @@ class SearchViewController : UITableViewController {
     
     var suggestionsWords = [String]() {
         didSet {
-            
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
+//
+//            DispatchQueue.main.async {
+//                self.tableView.reloadData()
+//            }
         }
     }
     
     var histrories = [String]()
-    
-    
-
     
     var timer : Timer?
     
@@ -41,7 +38,7 @@ class SearchViewController : UITableViewController {
     }
     
     private func configureNav() {
-        view.backgroundColor = .black
+        view.backgroundColor = .white
         navigationItem.searchController = searchController
         /// initial Set
         navigationItem.hidesSearchBarWhenScrolling = false
@@ -51,6 +48,7 @@ class SearchViewController : UITableViewController {
         searchController.searchBar.delegate = self
         searchController.searchBar.showsCancelButton = true
         searchController.searchBar.sizeToFit()
+        searchController.searchBar.searchTextField.backgroundColor = .systemBackground
         
         definesPresentationContext = true
         
@@ -61,9 +59,12 @@ class SearchViewController : UITableViewController {
     }
     
     private func configureTableView() {
-        tableView.backgroundColor = .white
+        tableView.backgroundColor = .black
         tableView.rowHeight = 60
         tableView.tableFooterView = UIView()
+        tableView.layer.borderWidth = 2
+        
+
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifer)
     }
@@ -110,6 +111,7 @@ class SearchViewController : UITableViewController {
         }
         
         cell.textLabel?.text = word
+       
         
         return cell
     }
@@ -129,16 +131,18 @@ class SearchViewController : UITableViewController {
         navigationController?.pushViewController(resultVC, animated: true)
     }
     
-    
-    /// header
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if !suggestionsWords.isEmpty {
-            return " "
-        }
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.textLabel?.textColor = .white
+        cell.backgroundColor = .black
         
-         return "検索履歴"
+       
+        tableView.separatorColor = .white
+//        tableView.tableFooterView?.backgroundColor = .black
     }
     
+    
+    /// header
+
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if !suggestionsWords.isEmpty {
             return 0
@@ -146,6 +150,25 @@ class SearchViewController : UITableViewController {
         
         return 35
     }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView()
+        view.backgroundColor = .black
+        
+        let headerTitle : UILabel = {
+            let label = UILabel()
+            label.textColor = .white
+            label.text = "検索履歴"
+            return label
+        }()
+        
+        headerView.addSubview(headerTitle)
+        headerTitle.centerY(inView: headerView, leftAnchor: headerView.leftAnchor, paddingLeft: 8)
+        
+        return headerView
+    }
+    
+    
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
@@ -183,7 +206,7 @@ extension SearchViewController : UISearchResultsUpdating, UISearchBarDelegate {
         APISearvice.suggestWordRequest(suggestWord: searchController.searchBar.text!) { (suggestions, error) in
             
             self.suggestionsWords.removeAll()
-            
+//
             if error != nil {
 
                 DispatchQueue.main.async {
@@ -196,6 +219,7 @@ extension SearchViewController : UISearchResultsUpdating, UISearchBarDelegate {
 
             
             self.suggestionsWords = suggestions
+            self.tableView.reloadData()
             
         }
         

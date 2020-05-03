@@ -54,7 +54,6 @@ class SearchResultController: UITableViewController {
         
         navigationController?.navigationBar.isHidden = false
         title = searchWord
-        navigationController?.navigationBar.tintColor = .black
     }
     
     private func configureTableView() {
