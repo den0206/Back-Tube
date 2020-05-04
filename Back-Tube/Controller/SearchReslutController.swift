@@ -11,9 +11,15 @@ import YoutubeKit
 
 private let reuseIdentifer = "Cell"
 
+protocol SearchResultControllerDelegate : class {
+    func didSelectResultVideo(videoId : String, relatedTitle : String)
+}
+
 class SearchResultController: UITableViewController {
     
     var searchWord : String
+    
+    weak var delegate : SearchResultControllerDelegate?
     
     var nextPageToken : String? {
         didSet {
@@ -46,6 +52,7 @@ class SearchResultController: UITableViewController {
         
         configureTableView()
         
+        print("DEBUG :\(self.tabBarController)")
         
         
     }
@@ -92,6 +99,7 @@ class SearchResultController: UITableViewController {
             switch result {
             case .success(let response) :
                 
+                
                 var results = [SearchResult]()
                 for result in response.items {
                     results.append(result)
@@ -133,12 +141,24 @@ extension SearchResultController {
         guard let videoId = result.id.videoID else {
             showErrorAlert(message: "ビデオが見つかりません")
             return}
-
         
-        let playView = playbackPlayer(videoId: videoId)
-        playView.relatedTitle = searchWord
-        present(playView, animated: true, completion: nil)
+        let playingVC = tabBarController?.viewControllers![2] as! PlayingViewController
+        self.tabBarController?.selectedIndex = 2
         
+        
+        playingVC.videoId = videoId
+        playingVC.relatedTitle = searchWord
+        
+        
+//        let selectedVC = tabBarController?.viewControllers![2] as! UINavigationController
+//        let playingVC = selectedVC.viewControllers[0] as! PlayingViewController
+        
+      
+//s
+//        let playView = playbackPlayer(videoId: videoId)
+//        playView.relatedTitle = searchWord
+//        present(playView, animated: true, completion: nil)
+//
     }
     
     /// more button

@@ -8,13 +8,14 @@
 
 import UIKit
 
+
+
 class MainTabController : UITabBarController {
     
     /// playerView
-    private let playerView = PlayerView()
+//    private let playerView = PlayerView()
     
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .lightGray
@@ -24,10 +25,10 @@ class MainTabController : UITabBarController {
         
     }
     
-    override func viewWillLayoutSubviews() {
-        
-        configurePlayerView()
-    }
+//    override func viewWillLayoutSubviews() {
+//
+//        configurePlayerView()
+//    }
     
     //MARK: - UI
     
@@ -39,25 +40,30 @@ class MainTabController : UITabBarController {
         let searchVC = SearchViewController()
         let nav2 = templetaNavigationController(image: #imageLiteral(resourceName: "search_unselected"), title : "Search", rootController: searchVC)
         
-        viewControllers = [nav1,nav2]
+        let playingVC = PlayingViewController()
+        playingVC.tabBarItem.image =  UIImage(systemName: "music.house")
+        playingVC.tabBarItem.title = "Now"
+//        let nav3 = templetaNavigationController(image: UIImage(systemName: "music.house"), title: "Now", rootController: playingVC)
+        
+        viewControllers = [nav1,nav2,playingVC]
         self.tabBar.barTintColor = .black
         
         UITabBar.appearance().tintColor = .red
         tabBar.unselectedItemTintColor = .white
     }
     
-    private func configurePlayerView() {
-        
-        ///ios11 以降
-//        let tabvarHeight = self.tabBar.frame.height + self.view.safeAreaInsets.bottom
-        view.addSubview(playerView)
-        
-
-//        playerView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 100)
-        playerView.anchor(bottom : self.tabBar.topAnchor, width: view.frame.width,height: 100)
-   
-    }
-    
+//    private func configurePlayerView() {
+//
+//        ///ios11 以降
+//        let tabvarHeight = self.tabBar.frame.height + self.view.safeAreaInsets.bottom + 100
+//        view.addSubview(playerView)
+//
+//
+////        playerView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 100)
+//        playerView.anchor(bottom : self.tabBar.topAnchor, width: view.frame.width,height: 100)
+//
+//    }
+//
     private func templetaNavigationController(image : UIImage?, title :String, rootController : UIViewController) -> UINavigationController {
         
         let nav = UINavigationController(rootViewController: rootController)
@@ -84,3 +90,5 @@ class MainTabController : UITabBarController {
     }
     
 }
+
+
