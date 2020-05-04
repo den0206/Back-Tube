@@ -74,12 +74,16 @@ class MainTabController : UITabBarController {
         //        appearence.backgroundColor = UIColor.rgb(red: 230, green: 32, blue: 31)
         appearence.backgroundColor = UIColor.black
         
+        /// navigationController border Color
+        appearence.shadowColor = .clear
+        
         nav.navigationBar.standardAppearance = appearence
         nav.navigationBar.compactAppearance = appearence
         nav.navigationBar.scrollEdgeAppearance = appearence
         
         nav.navigationBar.tintColor = .white
-        nav.navigationBar.isTranslucent = true
+        nav.navigationBar.layer.borderColor = UIColor.white.cgColor
+        
         
 //        navigationController?.navigationBar.overrideUserInterfaceStyle = .dark
                 

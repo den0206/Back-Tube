@@ -28,6 +28,7 @@ class SearchResultCell : UITableViewCell {
     let searchLabel : UILabel = {
         let label = UILabel()
         label.text = "title"
+        label.textColor = .white
         label.font = UIFont.boldSystemFont(ofSize: 18)
         return label
     }()
@@ -35,6 +36,7 @@ class SearchResultCell : UITableViewCell {
     let titleLabel : UILabel = {
         let label = UILabel()
         label.text = "title"
+        label.textColor = .white
         label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 14)
         return label
@@ -55,6 +57,9 @@ class SearchResultCell : UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         accessoryType = .none
+        
+        backgroundColor = .black
+        
         
         addSubview(thumbnailImageView)
         thumbnailImageView.anchor(top : topAnchor, bottom: bottomAnchor, right: rightAnchor, width: self.frame.width / 2, height: 100)

@@ -20,7 +20,7 @@ class SearchFooterView : UIView {
     
     let showMoreButton : UIButton = {
         let button = UIButton(type: .system)
-        let attributeTitle =  (NSMutableAttributedString(string: "Show More", attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 16), NSMutableAttributedString.Key.foregroundColor : UIColor.lightGray]))
+        let attributeTitle =  (NSMutableAttributedString(string: "Show More", attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 16), NSMutableAttributedString.Key.foregroundColor : UIColor.white]))
         
         button.setAttributedTitle(attributeTitle, for: .normal)
         button.addTarget(self, action: #selector(handleShowMore), for: .touchUpInside)
@@ -31,7 +31,7 @@ class SearchFooterView : UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        backgroundColor = .white
+        backgroundColor = .black
         
         addSubview(showMoreButton)
         showMoreButton.center(inView: self)

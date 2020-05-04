@@ -58,6 +58,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     }
     
+    
     func getTopViewController() -> UIViewController? {
         if let rootViewController = UIWindow.key?.rootViewController {
             var topViewController: UIViewController = rootViewController

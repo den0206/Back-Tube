@@ -51,8 +51,7 @@ class SearchResultController: UITableViewController {
         fetchSeatchResult()
         
         configureTableView()
-        
-        print("DEBUG :\(self.tabBarController)")
+    
         
         
     }
@@ -64,12 +63,13 @@ class SearchResultController: UITableViewController {
     }
     
     private func configureTableView() {
-        tableView.backgroundColor = .white
+        tableView.backgroundColor = .black
         tableView.rowHeight = 100
+        tableView.separatorColor = .white
         
         /// avoid overlay playerView
-        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 100, right: 0)
-        tableView.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: 100, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: 25, left: 0, bottom: 50, right: 0)
+        tableView.scrollIndicatorInsets = UIEdgeInsets(top: 25, left: 0, bottom: 50, right: 0)
         
 //        tableView.tableFooterView = UIView()
         let footer = SearchFooterView()
@@ -77,15 +77,11 @@ class SearchResultController: UITableViewController {
         footer.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 50)
         tableView.tableFooterView = footer
         
-        
+        tableView.tableFooterView?.isHidden = true
         
         tableView.register(SearchResultCell.self, forCellReuseIdentifier: reuseIdentifer)
         
-        guard let toatlResultCount = toatlResultCount else {return}
-        
-        if toatlResultCount >= searchResults.count {
-            tableView.tableFooterView?.isHidden = true
-        }
+      
         
     }
     
@@ -109,6 +105,15 @@ class SearchResultController: UITableViewController {
                 
                 self.nextPageToken = response.nextPageToken
                 self.searchResults = results
+                
+                guard let toatlResultCount = self.toatlResultCount else {return}
+                
+                print(toatlResultCount)
+                if toatlResultCount >= self.searchResults.count {
+                    self.tableView.tableFooterView?.isHidden = false
+                } else {
+                    self.tableView.tableFooterView?.isHidden = true
+                }
             case .failed(let error) :
                 print(error)
                 self.showErrorAlert(message: error.localizedDescription)
@@ -134,6 +139,9 @@ extension SearchResultController {
      
         return cell
     }
+    
+
+ 
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let result = searchResults[indexPath.row]
@@ -187,8 +195,18 @@ extension SearchResultController : SearchFooterViewDelegate {
                 
                 self.searchResults.append(contentsOf: results)
                 
+                guard let toatlResultCount = self.toatlResultCount else {
+                    print("No TOTAL")
+                    return
+                }
+                
+                if toatlResultCount >= self.searchResults.count {
+                    self.tableView.tableFooterView?.isHidden = false
+                }
+                
                 
             case .failed(let error) :
+    
                 print(error.localizedDescription)
                 self.showErrorAlert(message: error.localizedDescription)
                 

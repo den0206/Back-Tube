@@ -40,7 +40,23 @@ class PlayingViewController: UIViewController {
     var videoContainerView : UIView = {
         let view = UIView()
         view.backgroundColor = .black
- 
+        
+        let label = UILabel()
+        label.textColor = .white
+        label.text = "再生中の音楽はありません"
+        
+        view.addSubview(label)
+        
+        let separateView = UIView()
+        separateView.backgroundColor = .white
+        
+        view.addSubview(separateView)
+        separateView.anchor(left : view.leftAnchor,bottom: view.bottomAnchor,right: view.rightAnchor,width: view.frame.width, height: 0.75)
+        
+       
+        label.center(inView: view)
+        
+        
         return view
     }()
 
@@ -50,15 +66,13 @@ class PlayingViewController: UIViewController {
         configVideoPlayer()
         configTableView()
     
-        
     
     }
     
   
     
     private func configVideoPlayer() {
-        view.backgroundColor = .white
-      
+        view.backgroundColor = .black
         videoViewHeight = view.frame.width * 9 / 16
 
         videoContainerView.frame =  CGRect(x: 0, y: 0, width: view.frame.width, height: videoViewHeight!)
@@ -90,11 +104,6 @@ class PlayingViewController: UIViewController {
             
             self.playerViewController.player?.play()
             
-            //            self.present(AVPlayerViewControllerManager.shared.controller, animated: true) {
-            //                self.player = AVPlayerViewControllerManager.shared.controller.player
-            //                self.player!.play()
-            //            }
-            
         }
         //
         NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: nil, using: willEnterForeground)
@@ -120,18 +129,18 @@ class PlayingViewController: UIViewController {
         tableView.frame = CGRect(x: 0, y: videoViewHeight!, width: view.frame.width, height: self.view.frame.height - videoViewHeight!)
         
         tableView.rowHeight = 100
-        
+        tableView.backgroundColor = .black
         
         tableView.delegate = self
         tableView.dataSource = self
         
         tableView.register(SearchResultCell.self, forCellReuseIdentifier: reuseIdentifer)
         
-       
         tableView.isScrollEnabled = true
         
-        tableView.contentInset = UIEdgeInsets(top: 25, left: 0, bottom: 0, right: 0)
-        tableView.scrollIndicatorInsets = UIEdgeInsets(top: 25, left: 0, bottom: 0, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: 25, left: 0, bottom: 50, right: 0)
+        tableView.scrollIndicatorInsets = UIEdgeInsets(top: 25, left: 0, bottom: 50, right: 0)
+        
     }
     
     private func fetchRelatedVideos(videoId : String?) {
@@ -178,9 +187,9 @@ extension PlayingViewController : UITableViewDelegate,UITableViewDataSource {
             let noDataLabel: UILabel  = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
             
             noDataLabel.backgroundColor = .black
-            noDataLabel.text          = "再生中の音楽はありません"
-            noDataLabel.textColor     = UIColor.white
-            noDataLabel.textAlignment = .center
+//            noDataLabel.text          = "再生中の音楽はありません"
+//            noDataLabel.textColor     = UIColor.white
+//            noDataLabel.textAlignment = .center
             tableView.backgroundView  = noDataLabel
             tableView.separatorStyle  = .none
         }
@@ -197,6 +206,7 @@ extension PlayingViewController : UITableViewDelegate,UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifer, for: indexPath) as! SearchResultCell
         
         cell.searchResult = relatedVideos[indexPath.row]
+        cell.searchLabel.text = relatedTitle
         
         
         return cell
@@ -207,13 +217,15 @@ extension PlayingViewController : UITableViewDelegate,UITableViewDataSource {
         
         guard let videoId = result.id.videoID else {return}
         
-        weak var pvc = self.presentingViewController
+        self.videoId = videoId
         
-        self.dismiss(animated: true) {
-            
-            let playView = playbackPlayer(videoId: videoId)
-            pvc?.present(playView, animated: true, completion: nil)
-        }
+//        weak var pvc = self.presentingViewController
+//
+//        self.dismiss(animated: true) {
+//
+//            let playView = playbackPlayer(videoId: videoId)
+//            pvc?.present(playView, animated: true, completion: nil)
+//        }
         
         
     }

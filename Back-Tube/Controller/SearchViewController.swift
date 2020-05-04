@@ -22,7 +22,14 @@ class SearchViewController : UITableViewController {
         }
     }
     
-    var histrories = [String]()
+    var histrories = [String]() {
+        didSet {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+        
+    }
     
     var timer : Timer?
     
@@ -38,7 +45,7 @@ class SearchViewController : UITableViewController {
     }
     
     private func configureNav() {
-        view.backgroundColor = .white
+        view.backgroundColor = .black
         navigationItem.searchController = searchController
         /// initial Set
         navigationItem.hidesSearchBarWhenScrolling = false
@@ -53,8 +60,6 @@ class SearchViewController : UITableViewController {
         definesPresentationContext = true
         
         histrories = getHistories()
-        tableView.reloadData()
-        
         
     }
     
@@ -62,7 +67,7 @@ class SearchViewController : UITableViewController {
         tableView.backgroundColor = .black
         tableView.rowHeight = 60
         tableView.tableFooterView = UIView()
-        tableView.layer.borderWidth = 2
+        
         
 
         
@@ -134,10 +139,10 @@ class SearchViewController : UITableViewController {
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.textLabel?.textColor = .white
         cell.backgroundColor = .black
-        
-       
+//        cell.layer.borderWidth = 2
+//        cell.layer.borderColor = UIColor.white.cgColor
+////
         tableView.separatorColor = .white
-//        tableView.tableFooterView?.backgroundColor = .black
     }
     
     
