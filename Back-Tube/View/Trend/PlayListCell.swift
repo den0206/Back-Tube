@@ -31,6 +31,7 @@ class PlayListCell : UICollectionViewCell {
         iv.backgroundColor = .lightGray
         iv.setDimension(width: 150, height: 150)
         iv.layer.cornerRadius = 35 / 2
+    
         iv.clipsToBounds = true
         
         return iv

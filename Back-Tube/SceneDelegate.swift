@@ -51,7 +51,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //    func sceneWillEnterForeground(_ scene: UIScene) {
 //
 //        AVPlayerViewControllerManager.shared.reconnectPlayer(rootViewController: getTopViewController()!)
-//        
+//
 //
 //    }
 
@@ -60,6 +60,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
        AVPlayerViewControllerManager.shared.disconnectPlayer()
 
     }
+    
+
     
     
     func getTopViewController() -> UIViewController? {

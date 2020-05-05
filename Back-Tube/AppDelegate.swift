@@ -19,7 +19,7 @@ var window: UIWindow?
         // Override point for customization after application launch.
         
         guard let apiKey = keys.randomElement() else {return false}
-        YoutubeKit.shared.setAPIKey(YOUTUBE_API_KEY3)
+        YoutubeKit.shared.setAPIKey(apiKey)
         print(apiKey)
         
         do {
@@ -50,7 +50,7 @@ var window: UIWindow?
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
     
-   
+    
     
 
  

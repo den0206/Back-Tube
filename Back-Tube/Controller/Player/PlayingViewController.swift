@@ -127,10 +127,6 @@ class PlayingViewController: UIViewController {
     
     internal func willEnterForeground(notification : Notification) {
         
-        if self.playerViewController.modalPresentationStyle == .overFullScreen {
-            print("Full")
-        }
-
         AVPlayerViewControllerManager.shared.reconnectPlayer(rootViewController: AVPlayerViewControllerManager.shared.controller)
 
     }
@@ -231,7 +227,7 @@ extension PlayingViewController : UITableViewDelegate,UITableViewDataSource {
         let result = relatedVideos[indexPath.row]
         
         guard let videoId = result.id.videoID else {return}
-        
+
         self.videoId = videoId
         
 //        weak var pvc = self.presentingViewController
@@ -261,8 +257,16 @@ extension PlayingViewController : SearchResultControllerDelegate {
 
 extension PlayingViewController : AVPlayerViewControllerDelegate {
     
-    func playerViewController(_ playerViewController: AVPlayerViewController, willBeginFullScreenPresentationWithAnimationCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-        print("FullScreen")
-        playerViewController.player = self.playerViewController.player
-    }
+//    func playerViewController(_ playerViewController: AVPlayerViewController, willBeginFullScreenPresentationWithAnimationCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+//
+//        print("FullScreen")
+//
+//        self.playerViewController = playerViewController
+//
+//          NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: nil, using: willEnterForeground)
+//
+//    }
+//
+
+
 }
