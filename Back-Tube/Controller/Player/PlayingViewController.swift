@@ -66,6 +66,8 @@ class PlayingViewController: UIViewController {
         configVideoPlayer()
         configTableView()
         
+      
+        
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -79,7 +81,9 @@ class PlayingViewController: UIViewController {
     private func configVideoPlayer() {
         view.backgroundColor = .black
         videoViewHeight = view.frame.width * 9 / 16
-
+        
+        playerViewController.delegate = self
+        
         videoContainerView.frame =  CGRect(x: 0, y: 0, width: view.frame.width, height: videoViewHeight!)
         
         view.addSubview(videoContainerView)
@@ -122,6 +126,10 @@ class PlayingViewController: UIViewController {
     
     
     internal func willEnterForeground(notification : Notification) {
+        
+        if self.playerViewController.modalPresentationStyle == .overFullScreen {
+            print("Full")
+        }
 
         AVPlayerViewControllerManager.shared.reconnectPlayer(rootViewController: AVPlayerViewControllerManager.shared.controller)
 
@@ -247,4 +255,14 @@ extension PlayingViewController : SearchResultControllerDelegate {
     }
     
     
+}
+
+//MARK: - Enter FullScreen
+
+extension PlayingViewController : AVPlayerViewControllerDelegate {
+    
+    func playerViewController(_ playerViewController: AVPlayerViewController, willBeginFullScreenPresentationWithAnimationCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        print("FullScreen")
+        playerViewController.player = self.playerViewController.player
+    }
 }

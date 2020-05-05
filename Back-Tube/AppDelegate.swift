@@ -19,7 +19,7 @@ var window: UIWindow?
         // Override point for customization after application launch.
         
         guard let apiKey = keys.randomElement() else {return false}
-        YoutubeKit.shared.setAPIKey(apiKey)
+        YoutubeKit.shared.setAPIKey(YOUTUBE_API_KEY3)
         print(apiKey)
         
         do {
