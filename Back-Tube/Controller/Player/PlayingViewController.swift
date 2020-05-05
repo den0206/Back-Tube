@@ -26,12 +26,12 @@ class PlayingViewController: UIViewController {
     var relatedTitle : String?
     
     var relatedVideos = [SearchResult]() {
-           didSet {
-               print(relatedVideos.count)
-               tableView.reloadData()
-           }
-       }
-
+        didSet {
+            print(relatedVideos.count)
+            tableView.reloadData()
+        }
+    }
+    
     var videoViewHeight : CGFloat?
 
     let playerViewController = AVPlayerViewControllerManager.shared.controller
@@ -65,9 +65,14 @@ class PlayingViewController: UIViewController {
         
         configVideoPlayer()
         configTableView()
-    
-    
+        
     }
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
+   
     
   
     
@@ -101,6 +106,8 @@ class PlayingViewController: UIViewController {
             }
             
             self.playerViewController.didMove(toParent: self)
+            
+            self.tabBarController?.showPresentLoadindView(false)
             
             self.playerViewController.player?.play()
             

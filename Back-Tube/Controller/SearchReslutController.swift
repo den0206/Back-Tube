@@ -21,12 +21,7 @@ class SearchResultController: UITableViewController {
     
     weak var delegate : SearchResultControllerDelegate?
     
-    var nextPageToken : String? {
-        didSet {
-            print("DEBUG : \(nextPageToken)")
-        }
-    }
-    
+    var nextPageToken : String? 
     var toatlResultCount : Int?
     
     var searchResults = [SearchResult]() {
@@ -74,7 +69,7 @@ class SearchResultController: UITableViewController {
 //        tableView.tableFooterView = UIView()
         let footer = SearchFooterView()
         footer.delegate = self
-        footer.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 50)
+        footer.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 70)
         tableView.tableFooterView = footer
         
         tableView.tableFooterView?.isHidden = true
@@ -106,6 +101,8 @@ class SearchResultController: UITableViewController {
                 self.nextPageToken = response.nextPageToken
                 self.searchResults = results
                 
+                self.tabBarController?.showPresentLoadindView(false)
+
                 guard let toatlResultCount = self.toatlResultCount else {return}
                 
                 print(toatlResultCount)
@@ -116,6 +113,9 @@ class SearchResultController: UITableViewController {
                 }
             case .failed(let error) :
                 print(error)
+                
+                self.tabBarController?.showPresentLoadindView(false)
+
                 self.showErrorAlert(message: error.localizedDescription)
             }
         }
@@ -148,7 +148,11 @@ extension SearchResultController {
         
         guard let videoId = result.id.videoID else {
             showErrorAlert(message: "ビデオが見つかりません")
-            return}
+            return
+            
+        }
+        
+        self.tabBarController?.showPresentLoadindView(true)
         
         let playingVC = tabBarController?.viewControllers![2] as! PlayingViewController
         self.tabBarController?.selectedIndex = 2
@@ -180,6 +184,8 @@ extension SearchResultController {
 extension SearchResultController : SearchFooterViewDelegate {
     func handleShowMore(footerView: SearchFooterView) {
         
+        self.tabBarController?.showPresentLoadindView(true)
+        
         let request = SearchListRequest(part: [.snippet], maxResults: 10,  pageToken: nextPageToken,searchQuery: searchWord, regionCode: "JP")
         
         YoutubeAPI.shared.send(request) { (result) in
@@ -195,6 +201,8 @@ extension SearchResultController : SearchFooterViewDelegate {
                 
                 self.searchResults.append(contentsOf: results)
                 
+                   self.tabBarController?.showPresentLoadindView(false)
+                
                 guard let toatlResultCount = self.toatlResultCount else {
                     print("No TOTAL")
                     return
@@ -206,8 +214,10 @@ extension SearchResultController : SearchFooterViewDelegate {
                 
                 
             case .failed(let error) :
-    
+                
                 print(error.localizedDescription)
+                
+                   self.tabBarController?.showPresentLoadindView(false)
                 self.showErrorAlert(message: error.localizedDescription)
                 
             }

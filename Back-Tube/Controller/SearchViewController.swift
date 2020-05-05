@@ -42,6 +42,8 @@ class SearchViewController : UITableViewController {
         configureNav()
         configureTableView()
         
+      
+        
     }
     
     private func configureNav() {
@@ -56,6 +58,7 @@ class SearchViewController : UITableViewController {
         searchController.searchBar.showsCancelButton = true
         searchController.searchBar.sizeToFit()
         searchController.searchBar.searchTextField.backgroundColor = .systemBackground
+        searchController.searchBar.autocorrectionType = .no
         
         definesPresentationContext = true
         
@@ -72,6 +75,8 @@ class SearchViewController : UITableViewController {
 
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifer)
+        
+
     }
     
 //    override func numberOfSections(in tableView: UITableView) -> Int {
@@ -131,6 +136,8 @@ class SearchViewController : UITableViewController {
             word = histrories[indexPath.row]
         }
         
+        self.tabBarController?.showPresentLoadindView(true)
+        
         
         let resultVC = SearchResultController(_searchWord: word)
         navigationController?.pushViewController(resultVC, animated: true)
@@ -139,9 +146,6 @@ class SearchViewController : UITableViewController {
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.textLabel?.textColor = .white
         cell.backgroundColor = .black
-//        cell.layer.borderWidth = 2
-//        cell.layer.borderColor = UIColor.white.cgColor
-////
         tableView.separatorColor = .white
     }
     
@@ -197,12 +201,15 @@ class SearchViewController : UITableViewController {
 
 extension SearchViewController : UISearchResultsUpdating, UISearchBarDelegate {
     func updateSearchResults(for searchController: UISearchController) {
+       
         
         if let searchText = searchController.searchBar.text , !searchText.isEmpty {
             
             self.timer?.invalidate()
             self.timer = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(serachSuggestions), userInfo: nil, repeats: false)
             
+        }else {
+            suggestionsWords.removeAll(keepingCapacity: false)
         }
         
     }
@@ -243,7 +250,12 @@ extension SearchViewController : UISearchResultsUpdating, UISearchBarDelegate {
         
         
     }
-
+    
+    func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        searchController.searchResultsController?.view.isHidden = false
+        
+        return true
+    }
     
     //MARK: - Histror Words
     

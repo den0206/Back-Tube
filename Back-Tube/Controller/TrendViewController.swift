@@ -153,6 +153,8 @@ extension TrendViewController : TrendCellDelegate {
     }
     
     func didTappedRadio(title: String) {
+        
+        self.tabBarController?.showPresentLoadindView(true)
         let resultVC = SearchResultController(_searchWord: title)
         navigationController?.pushViewController(resultVC, animated: true)
     }
