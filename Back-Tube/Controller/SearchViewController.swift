@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import GoogleMobileAds
+
 private let reuseIdentifer = "Cell"
 
 class SearchViewController : UITableViewController {
@@ -35,6 +37,12 @@ class SearchViewController : UITableViewController {
     
     let searchController = UISearchController(searchResultsController: nil)
     
+    var bannerView : UIView = {
+        let view = UIView()
+        return view
+    }()
+   
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,6 +54,19 @@ class SearchViewController : UITableViewController {
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        view.addSubview(bannerView)
+        bannerView.centerX(inView: view)
+        bannerView.anchor(bottom: self.tabBarController?.tabBar.topAnchor,width: 320,height: 50)
+        
+        AdMobHelper.shared.setupBannerAd(adBaseView: bannerView, rootVC: self)
+        
+        
+    }
+
+   
     private func configureNav() {
         view.backgroundColor = .black
         navigationItem.searchController = searchController
@@ -72,34 +93,15 @@ class SearchViewController : UITableViewController {
         tableView.tableFooterView = UIView()
         
         
-
-        
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifer)
+        
+        
+       
         
 
     }
     
-//    override func numberOfSections(in tableView: UITableView) -> Int {
-//
-//
-//        var numberOfSections : Int = 0
-//
-//        if !suggestionsWords.isEmpty {
-//            numberOfSections = 1
-//            tableView.backgroundView = nil
-//        } else {
-//
-//            let noDataLabel: UILabel  = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
-//            noDataLabel.text          = "検索候補はありません"
-//            noDataLabel.textColor     = UIColor.black
-//            noDataLabel.textAlignment = .center
-//            tableView.backgroundView  = noDataLabel
-//            tableView.separatorStyle  = .none
-//        }
-//
-//        return numberOfSections
-//    }
-////
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if !suggestionsWords.isEmpty, searchController.isActive  {
             return suggestionsWords.count
@@ -292,5 +294,9 @@ extension SearchViewController : UISearchResultsUpdating, UISearchBarDelegate {
     }
     
     
+    
+}
+
+extension  SearchViewController : GADBannerViewDelegate {
     
 }

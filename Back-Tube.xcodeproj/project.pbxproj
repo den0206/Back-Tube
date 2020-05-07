@@ -25,6 +25,7 @@
 		3AC935E824531EB10032F2C7 /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC935E724531EB10032F2C7 /* SearchResultCell.swift */; };
 		3AC9FA15244F0D8E00CE51F8 /* VideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AC9FA14244F0D8E00CE51F8 /* VideoCell.swift */; };
 		3ACFF00C245F15ED0009336A /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACFF00B245F15ED0009336A /* PlayerView.swift */; };
+		3AD106862464157400C52CA9 /* AdMobHelper .swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD106852464157400C52CA9 /* AdMobHelper .swift */; };
 		3AD3EAE224505DEB00409967 /* VideoLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD3EAE124505DEB00409967 /* VideoLauncher.swift */; };
 		3AD3EAE4245086C100409967 /* MainTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD3EAE3245086C100409967 /* MainTabController.swift */; };
 		3AD3EAE62450880900409967 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AD3EAE52450880900409967 /* SearchViewController.swift */; };
@@ -58,6 +59,7 @@
 		3AC935E724531EB10032F2C7 /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
 		3AC9FA14244F0D8E00CE51F8 /* VideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCell.swift; sourceTree = "<group>"; };
 		3ACFF00B245F15ED0009336A /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
+		3AD106852464157400C52CA9 /* AdMobHelper .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AdMobHelper .swift"; sourceTree = "<group>"; };
 		3AD3EAE124505DEB00409967 /* VideoLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoLauncher.swift; sourceTree = "<group>"; };
 		3AD3EAE3245086C100409967 /* MainTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabController.swift; sourceTree = "<group>"; };
 		3AD3EAE52450880900409967 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -137,6 +139,7 @@
 				3A127700244DC041003A6750 /* Extension.swift */,
 				3AFEC7D5245B03B200CBFFD2 /* AVPlayerViewControllerManager.swift */,
 				3A4381A0244DCD7B009DE6F9 /* sec.swift */,
+				3AD106852464157400C52CA9 /* AdMobHelper .swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -326,6 +329,7 @@
 				3AC31561245D276200890AC7 /* WeeklyCell.swift in Sources */,
 				3AC9FA15244F0D8E00CE51F8 /* VideoCell.swift in Sources */,
 				3AD3EAE4245086C100409967 /* MainTabController.swift in Sources */,
+				3AD106862464157400C52CA9 /* AdMobHelper .swift in Sources */,
 				3AC7155E2453F032003A2C20 /* SearchFooterView.swift in Sources */,
 				3AF5CB1F24586E0600F41764 /* TrendViewController.swift in Sources */,
 				3A3E8B142458851E00B510AB /* TrendCell.swift in Sources */,
