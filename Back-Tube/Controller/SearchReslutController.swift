@@ -74,7 +74,7 @@ class SearchResultController: UITableViewController {
         bannerView.centerX(inView: view)
         bannerView.anchor(bottom: self.tabBarController?.tabBar.topAnchor,width: 320,height: 50)
         
-        AdMobHelper.shared.setupBannerAd(adBaseView: bannerView, rootVC: self)
+        AdMobHelper.shared.setupBannerAd(adBaseView: bannerView, rootVC: self,bannerId: BannerID1)
         
         
     }
@@ -206,6 +206,8 @@ extension SearchResultController {
 extension SearchResultController : SearchFooterViewDelegate {
     func handleShowMore(footerView: SearchFooterView) {
         
+        self.tabBarController?.showPresentLoadindView(true)
+        
         /// admob
         if interstitial.isReady {
             interstitial.present(fromRootViewController: self)
@@ -213,8 +215,26 @@ extension SearchResultController : SearchFooterViewDelegate {
             print("NO READY")
         }
         
-        self.tabBarController?.showPresentLoadindView(true)
+ 
+    }
+    
+    
+}
+
+extension SearchResultController : GADInterstitialDelegate {
+    
+    
+    func createAndLoadInterstitial() -> GADInterstitial {
+        let interstitial = GADInterstitial(adUnitID: InterstitialID)
+        interstitial.delegate = self
+        interstitial.load(GADRequest())
+        return interstitial
+    }
+    
+    func interstitialWillPresentScreen(_ ad: GADInterstitial) {
         
+        //MARK: - Show More
+
         let request = SearchListRequest(part: [.snippet], maxResults: 10,  pageToken: nextPageToken,searchQuery: searchWord, regionCode: "JP")
         
         YoutubeAPI.shared.send(request) { (result) in
@@ -230,7 +250,7 @@ extension SearchResultController : SearchFooterViewDelegate {
                 
                 self.searchResults.append(contentsOf: results)
                 
-                   self.tabBarController?.showPresentLoadindView(false)
+                self.tabBarController?.showPresentLoadindView(false)
                 
                 guard let toatlResultCount = self.toatlResultCount else {
                     print("No TOTAL")
@@ -246,27 +266,22 @@ extension SearchResultController : SearchFooterViewDelegate {
                 
                 print(error.localizedDescription)
                 
-                   self.tabBarController?.showPresentLoadindView(false)
+                self.tabBarController?.showPresentLoadindView(false)
                 self.showErrorAlert(message: error.localizedDescription)
                 
             }
         }
     }
     
-    
-}
-
-extension SearchResultController : GADInterstitialDelegate {
-    
-    
-    func createAndLoadInterstitial() -> GADInterstitial {
-      var interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
-      interstitial.delegate = self
-      interstitial.load(GADRequest())
-      return interstitial
+    func interstitialDidFail(toPresentScreen ad: GADInterstitial) {
+        showErrorAlert(message: "広告が読み込めません")
     }
     
     func interstitialDidDismissScreen(_ ad: GADInterstitial) {
         interstitial = createAndLoadInterstitial()
+    }
+    
+    func interstitialWillLeaveApplication(_ ad: GADInterstitial) {
+        print("Will leave")
     }
 }

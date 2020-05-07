@@ -17,15 +17,15 @@ class AdMobHelper : NSObject {
     }
     
    
-    func setupBannerAd(adBaseView: UIView, rootVC: UIViewController) {
+    func setupBannerAd(adBaseView: UIView, rootVC: UIViewController,bannerId : String) {
         let adView = GADBannerView(adSize: kGADAdSizeBanner)
         #if DEBUG
-        adView.adUnitID = "ca-app-pub-3940256099942544/6300978111"
+        adView.adUnitID = bannerId
         #else
         if rootVC is ViewController {
-            adView.adUnitID = "ca-app-pub-3940256099942544/6300978111"
+            adView.adUnitID = bannerId
         } else if rootVC is ViewController2 {
-            adView.adUnitID = "ca-app-pub-3940256099942544/6300978111"
+            adView.adUnitID = bannerId
         }
         #endif
         adView.rootViewController = rootVC
