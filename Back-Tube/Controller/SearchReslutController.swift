@@ -8,6 +8,7 @@
 
 import UIKit
 import YoutubeKit
+import GoogleMobileAds
 
 private let reuseIdentifer = "Cell"
 
@@ -39,6 +40,13 @@ class SearchResultController: UITableViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    var bannerView : UIView = {
+        let view = UIView()
+        return view
+    }()
+    
+    var interstitial : GADInterstitial!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -46,17 +54,31 @@ class SearchResultController: UITableViewController {
         fetchSeatchResult()
         
         configureTableView()
-    
         
+        interstitial = createAndLoadInterstitial()
+   
         
     }
-    override func viewDidAppear(_ animated: Bool) {
+    
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         navigationController?.navigationBar.isHidden = false
         title = searchWord
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        view.addSubview(bannerView)
+        bannerView.centerX(inView: view)
+        bannerView.anchor(bottom: self.tabBarController?.tabBar.topAnchor,width: 320,height: 50)
+        
+        AdMobHelper.shared.setupBannerAd(adBaseView: bannerView, rootVC: self)
+        
+        
+    }
+   
     private func configureTableView() {
         tableView.backgroundColor = .black
         tableView.rowHeight = 100
@@ -184,6 +206,13 @@ extension SearchResultController {
 extension SearchResultController : SearchFooterViewDelegate {
     func handleShowMore(footerView: SearchFooterView) {
         
+        /// admob
+        if interstitial.isReady {
+            interstitial.present(fromRootViewController: self)
+        } else {
+            print("NO READY")
+        }
+        
         self.tabBarController?.showPresentLoadindView(true)
         
         let request = SearchListRequest(part: [.snippet], maxResults: 10,  pageToken: nextPageToken,searchQuery: searchWord, regionCode: "JP")
@@ -225,4 +254,19 @@ extension SearchResultController : SearchFooterViewDelegate {
     }
     
     
+}
+
+extension SearchResultController : GADInterstitialDelegate {
+    
+    
+    func createAndLoadInterstitial() -> GADInterstitial {
+      var interstitial = GADInterstitial(adUnitID: "ca-app-pub-3940256099942544/4411468910")
+      interstitial.delegate = self
+      interstitial.load(GADRequest())
+      return interstitial
+    }
+    
+    func interstitialDidDismissScreen(_ ad: GADInterstitial) {
+        interstitial = createAndLoadInterstitial()
+    }
 }

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import GoogleMobileAds
 
 private let reuseIdentifer = "Cell"
 
@@ -41,14 +40,14 @@ class SearchViewController : UITableViewController {
         let view = UIView()
         return view
     }()
-   
     
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureNav()
         configureTableView()
+        
         
       
         
@@ -60,7 +59,7 @@ class SearchViewController : UITableViewController {
         view.addSubview(bannerView)
         bannerView.centerX(inView: view)
         bannerView.anchor(bottom: self.tabBarController?.tabBar.topAnchor,width: 320,height: 50)
-        
+
         AdMobHelper.shared.setupBannerAd(adBaseView: bannerView, rootVC: self)
         
         
@@ -297,6 +296,3 @@ extension SearchViewController : UISearchResultsUpdating, UISearchBarDelegate {
     
 }
 
-extension  SearchViewController : GADBannerViewDelegate {
-    
-}

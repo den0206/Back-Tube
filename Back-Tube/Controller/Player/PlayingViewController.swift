@@ -59,14 +59,31 @@ class PlayingViewController: UIViewController {
         
         return view
     }()
-
+    
+    var bannerView : UIView = {
+        let view = UIView()
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configVideoPlayer()
         configTableView()
         
-      
+        
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        view.addSubview(bannerView)
+        bannerView.centerX(inView: view)
+        bannerView.anchor(bottom: self.tabBarController?.tabBar.topAnchor,width: 320,height: 50)
+        
+        AdMobHelper.shared.setupBannerAd(adBaseView: bannerView, rootVC: self)
+        
         
     }
     
