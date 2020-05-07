@@ -261,14 +261,7 @@ extension PlayingViewController : UITableViewDelegate,UITableViewDataSource {
     
 }
 
-extension PlayingViewController : SearchResultControllerDelegate {
-    
-    func didSelectResultVideo(videoId: String, relatedTitle: String) {
-        print("push")
-    }
-    
-    
-}
+
 
 //MARK: - Enter FullScreen
 

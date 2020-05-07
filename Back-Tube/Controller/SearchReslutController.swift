@@ -12,15 +12,11 @@ import GoogleMobileAds
 
 private let reuseIdentifer = "Cell"
 
-protocol SearchResultControllerDelegate : class {
-    func didSelectResultVideo(videoId : String, relatedTitle : String)
-}
 
 class SearchResultController: UITableViewController {
     
     var searchWord : String
     
-    weak var delegate : SearchResultControllerDelegate?
     
     var nextPageToken : String? 
     var toatlResultCount : Int?
@@ -30,6 +26,8 @@ class SearchResultController: UITableViewController {
             tableView.reloadData()
         }
     }
+    
+    var popupViewController = PopupViewController()
     
     init(_searchWord : String) {
         self.searchWord = _searchWord
@@ -54,6 +52,10 @@ class SearchResultController: UITableViewController {
         fetchSeatchResult()
         
         configureTableView()
+        
+        self.tabBarController?.addChild(popupViewController)
+        popupViewController.didMove(toParent: self.tabBarController)
+        
         
         interstitial = createAndLoadInterstitial()
    
@@ -166,32 +168,35 @@ extension SearchResultController {
  
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let result = searchResults[indexPath.row]
         
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        let result = searchResults[indexPath.row]
+
         guard let videoId = result.id.videoID else {
             showErrorAlert(message: "ビデオが見つかりません")
             return
+
+        }
+        
+        popupViewController.searchWord = searchWord
+        popupViewController.videoId = videoId
+        
+        UIView.animate(withDuration: 0.5) {
+            self.tabBarController?.view.addSubview(self.popupViewController.view)
             
         }
         
-        self.tabBarController?.showPresentLoadindView(true)
-        
-        let playingVC = tabBarController?.viewControllers![2] as! PlayingViewController
-        self.tabBarController?.selectedIndex = 2
-        
-        
-        playingVC.videoId = videoId
-        playingVC.relatedTitle = searchWord
-        
-        
-//        let selectedVC = tabBarController?.viewControllers![2] as! UINavigationController
-//        let playingVC = selectedVC.viewControllers[0] as! PlayingViewController
-        
-      
-//s
-//        let playView = playbackPlayer(videoId: videoId)
-//        playView.relatedTitle = searchWord
-//        present(playView, animated: true, completion: nil)
+        //
+//        self.tabBarController?.showPresentLoadindView(true)
+//
+//        let playingVC = tabBarController?.viewControllers![2] as! PlayingViewController
+//        self.tabBarController?.selectedIndex = 2
+//
+//
+//        playingVC.videoId = videoId
+//        playingVC.relatedTitle = searchWord
+//
 //
     }
     

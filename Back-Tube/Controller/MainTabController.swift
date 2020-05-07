@@ -13,14 +13,20 @@ import UIKit
 class MainTabController : UITabBarController {
     
     /// playerView
-//    private let playerView = PlayerView()
+    //    private let playerView = PlayerView()
     
-
+    
+    private var popupViewController = PopupViewController()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .lightGray
         
         configureTabController()
+        
+        addChild(popupViewController)
+        popupViewController.didMove(toParent: self)
         
         
     }
