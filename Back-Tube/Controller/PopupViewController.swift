@@ -9,15 +9,31 @@
 import UIKit
 import YoutubeKit
 
+//enum SearchType {
+//    case searchWord
+//    case playRelate
+//}
+//
 
 class PopupViewController : UIViewController {
     
     var searchWord : String?
     var videoId : String?
-
+    
+//    var searchType : SearchType
+    
+//    init(searchType : SearchType) {
+//        self.searchType = searchType
+//        super.init(nibName: nil, bundle: nil)
+//    }
+//
+//    required init?(coder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
+//
     //MARK: - parts
     
-    private let popView : UIView = {
+    let popView : UIView = {
         let view = UIView()
         view.backgroundColor = .white
         return view
@@ -43,12 +59,7 @@ class PopupViewController : UIViewController {
         return button
     }()
     
-    private let closeButton : UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "xmark.circle"), for: .normal)
-        button.tintColor = .black
-        return button
-    }()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,47 +72,41 @@ class PopupViewController : UIViewController {
         let screenWidth:CGFloat = self.view.frame.width
         let screenHeight:CGFloat = self.view.frame.height
         
-        let popupWidth = (screenWidth * 3)/4
-        let popupHeight = (screenWidth * 4)/5
+//        let popupWidth = (screenWidth * 3)/4
+//        let popupHeight = (screenWidth * 4)/5
         
         
-        self.view.backgroundColor = UIColor(
-            red: 150/255,
-            green: 150/255,
-            blue: 150/255,
-            alpha: 0.6
-        )
+        self.view.backgroundColor = UIColor(white: 0, alpha: 0.6)
+        self.view.tag = 1
         
-//        /// tap backGround
-//        let tap = UITapGestureRecognizer(target: self, action: #selector(handleDisimiss))
-//        self.view.addGestureRecognizer(tap)
-//
         
-        popView.frame = CGRect(x: screenWidth / 8, y: screenHeight / 5, width: popupWidth, height: popupHeight)
+        /// tap backGround
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleDisimiss))
+        self.view.addGestureRecognizer(tap)
+
+        
+        popView.frame = CGRect(x: screenWidth / 8, y: screenHeight / 5, width: 300, height: 300)
         self.view.addSubview(popView)
         
+         AdMobHelper.shared.mediumBannerAd(adBaseView: popView, rootVC: self, bannerId: BannerID1)
         
         
+
         let stack = UIStackView(arrangedSubviews: [okButton,noButton])
         stack.axis = .horizontal
         stack.distribution = .fillEqually
         stack.alignment = .center
-        
+
         popView.addSubview(stack)
 
-        stack.anchor(left :popView.leftAnchor,bottom: popView.bottomAnchor,right: popView.rightAnchor)
+        stack.anchor(left :popView.leftAnchor,bottom: popView.bottomAnchor,right: popView.rightAnchor,height: 50)
        
-        AdMobHelper.shared.mediumBannerAd(adBaseView: popView, rootVC: self, bannerId: BannerID1,stack: stack)
+       
         
         
         
     }
-    
-    private func configireButtons() {
-        
-        
-    }
-    
+
     //MARK: - Actions
     
     @objc func checkOk() {
@@ -114,7 +119,7 @@ class PopupViewController : UIViewController {
         
         let playingVC = tabBarController?.viewControllers![2] as! PlayingViewController
         self.tabBarController?.selectedIndex = 2
-        
+       
         self.view.removeFromSuperview()
 
         

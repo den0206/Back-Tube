@@ -37,6 +37,8 @@ class PlayingViewController: UIViewController {
     let playerViewController = AVPlayerViewControllerManager.shared.controller
     var player : AVPlayer?
     
+    var popupViewController = PopupViewController()
+    
     var videoContainerView : UIView = {
         let view = UIView()
         view.backgroundColor = .black
@@ -241,11 +243,33 @@ extension PlayingViewController : UITableViewDelegate,UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        AVPlayerViewControllerManager.shared.controller.player?.pause()
+        
         let result = relatedVideos[indexPath.row]
         
-        guard let videoId = result.id.videoID else {return}
+        guard let videoId = result.id.videoID else {
+             showErrorAlert(message: "ビデオが見つかりません")
+            return}
+        
+        popupViewController.searchWord = relatedTitle
+        popupViewController.videoId = videoId
+        
+        self.popupViewController.popView.alpha = 0
+        
+        self.tabBarController?.view.addSubview(self.popupViewController.view)
+        
+        UIView.animate(withDuration: 1) {
+            
+            self.popupViewController.popView.alpha = 1
+            
+        }
+        
+        /// no ad
 
-        self.videoId = videoId
+//        self.videoId = videoId
+        
+        
         
 //        weak var pvc = self.presentingViewController
 //

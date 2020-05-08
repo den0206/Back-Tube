@@ -38,7 +38,7 @@ class AdMobHelper : NSObject {
 //        adView.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
     }
     
-    func mediumBannerAd(adBaseView: UIView, rootVC: UIViewController,bannerId : String,stack : UIStackView) {
+    func mediumBannerAd(adBaseView: UIView, rootVC: UIViewController,bannerId : String) {
         let adView = GADBannerView(adSize: kGADAdSizeMediumRectangle)
         #if DEBUG
         adView.adUnitID = bannerId
@@ -54,9 +54,8 @@ class AdMobHelper : NSObject {
         adBaseView.addSubview(adView)
         adView.translatesAutoresizingMaskIntoConstraints = false
         adView.centerXAnchor.constraint(equalTo: adBaseView.centerXAnchor).isActive = true
-        adView.anchor(top: adBaseView.topAnchor, bottom : stack.topAnchor)
-        //        adView.centerYAnchor.constraint(equalTo: adBaseView.centerYAnchor).isActive = true
-        //        adView.widthAnchor.constraint(equalToConstant: 320.0).isActive = true
+        adView.anchor(top: adBaseView.topAnchor)
+        adView.widthAnchor.constraint(equalToConstant: 300.0).isActive = true
         //        adView.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
     }
 }

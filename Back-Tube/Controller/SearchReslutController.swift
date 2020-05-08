@@ -182,8 +182,13 @@ extension SearchResultController {
         popupViewController.searchWord = searchWord
         popupViewController.videoId = videoId
         
-        UIView.animate(withDuration: 0.5) {
-            self.tabBarController?.view.addSubview(self.popupViewController.view)
+        self.popupViewController.popView.alpha = 0
+        
+        self.tabBarController?.view.addSubview(self.popupViewController.view)
+        
+        UIView.animate(withDuration: 1) {
+    
+            self.popupViewController.popView.alpha = 1
             
         }
         
