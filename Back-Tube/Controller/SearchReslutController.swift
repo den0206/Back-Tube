@@ -27,7 +27,7 @@ class SearchResultController: UITableViewController {
         }
     }
     
-    var popupViewController = PopupViewController()
+    var popupViewController = PopupViewController(searchType: .searchWord)
     
     init(_searchWord : String) {
         self.searchWord = _searchWord

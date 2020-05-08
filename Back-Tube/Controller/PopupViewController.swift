@@ -9,28 +9,36 @@
 import UIKit
 import YoutubeKit
 
-//enum SearchType {
-//    case searchWord
-//    case playRelate
-//}
-//
+protocol PopViewControllerDelegate {
+    func relatedVideo(videoId : String, title : String)
+}
+
+enum SearchType {
+    case searchWord
+    case playRelate
+}
+
 
 class PopupViewController : UIViewController {
     
     var searchWord : String?
     var videoId : String?
     
-//    var searchType : SearchType
+    var searchType : SearchType
     
-//    init(searchType : SearchType) {
-//        self.searchType = searchType
-//        super.init(nibName: nil, bundle: nil)
-//    }
-//
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
-//
+    var delegate : PopViewControllerDelegate?
+    
+    init(searchType : SearchType) {
+        self.searchType = searchType
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+  
+
     //MARK: - parts
     
     let popView : UIView = {
@@ -110,21 +118,43 @@ class PopupViewController : UIViewController {
     //MARK: - Actions
     
     @objc func checkOk() {
+    
         
-        guard let searchWord = searchWord, let videoId = videoId else {
+        switch searchType {
+        case .searchWord:
+            print("Search")
+
+            guard let searchWord = searchWord, let videoId = videoId else {
+                self.view.removeFromSuperview()
+                return}
+            
+            self.tabBarController?.showPresentLoadindView(true)
+            
+            let playingVC = tabBarController?.viewControllers![2] as! PlayingViewController
+            self.tabBarController?.selectedIndex = 2
+            
+            self.view.removeFromSuperview()
+            
+            
+            playingVC.videoId = videoId
+            playingVC.relatedTitle = searchWord
+            
+        case .playRelate :
+            print("RELATE")
+            
+            guard let searchWord = searchWord, let videoId = videoId else {
             self.view.removeFromSuperview()
             return}
+            
+            self.tabBarController?.showPresentLoadindView(true)
+            
+            self.view.removeFromSuperview()
+            
+            delegate?.relatedVideo(videoId: videoId, title: searchWord)
+            
+        }
         
-        self.tabBarController?.showPresentLoadindView(true)
-        
-        let playingVC = tabBarController?.viewControllers![2] as! PlayingViewController
-        self.tabBarController?.selectedIndex = 2
        
-        self.view.removeFromSuperview()
-
-        
-        playingVC.videoId = videoId
-        playingVC.relatedTitle = searchWord
     }
     
     @objc func handleDisimiss() {

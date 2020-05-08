@@ -37,7 +37,7 @@ class PlayingViewController: UIViewController {
     let playerViewController = AVPlayerViewControllerManager.shared.controller
     var player : AVPlayer?
     
-    var popupViewController = PopupViewController()
+    var popupViewController = PopupViewController(searchType: .playRelate)
     
     var videoContainerView : UIView = {
         let view = UIView()
@@ -100,9 +100,7 @@ class PlayingViewController: UIViewController {
     private func configVideoPlayer() {
         view.backgroundColor = .black
         videoViewHeight = view.frame.width * 9 / 16
-        
-        playerViewController.delegate = self
-        
+
         videoContainerView.frame =  CGRect(x: 0, y: 0, width: view.frame.width, height: videoViewHeight!)
         
         view.addSubview(videoContainerView)
@@ -254,6 +252,8 @@ extension PlayingViewController : UITableViewDelegate,UITableViewDataSource {
         
         popupViewController.searchWord = relatedTitle
         popupViewController.videoId = videoId
+        popupViewController.delegate = self
+        popupViewController.searchType = .playRelate
         
         self.popupViewController.popView.alpha = 0
         
@@ -287,20 +287,15 @@ extension PlayingViewController : UITableViewDelegate,UITableViewDataSource {
 
 
 
-//MARK: - Enter FullScreen
+//MARK: -
 
-extension PlayingViewController : AVPlayerViewControllerDelegate {
+extension PlayingViewController : PopViewControllerDelegate {
+    func relatedVideo(videoId: String, title: String) {
+        
+        /// get related Video
+        self.videoId = videoId
+        self.relatedTitle = title
+    }
     
-//    func playerViewController(_ playerViewController: AVPlayerViewController, willBeginFullScreenPresentationWithAnimationCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-//
-//        print("FullScreen")
-//
-//        self.playerViewController = playerViewController
-//
-//          NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: nil, using: willEnterForeground)
-//
-//    }
-//
-
-
+    
 }
