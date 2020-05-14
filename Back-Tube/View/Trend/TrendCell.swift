@@ -13,17 +13,29 @@ protocol TrendCellDelegate {
     
     func didScrollCell(cell : TrendCell, indexPath : IndexPath)
     func didTappedRadio(title : String)
+    
+    func presentAlert(alert : UIAlertController)
 }
 
 
 private let resuseIdentifer = "SubCell"
-private let resuseWeeklyIdentifer = "WeeklyCell"
+private let resuseAddIdentifer = "addCell"
+private let reuseWordIdentifer = "WordCell"
 
 class TrendCell : UICollectionViewCell {
     
     var delegate : TrendCellDelegate?
     
     var cellType : TrendCellType?
+    
+    var stickyWords = [String]() {
+        didSet {
+            if cellType == .week
+            {
+                collectionView.reloadData()
+            }
+        }
+    }
     
 
     /// Uiimage Arrays
@@ -46,7 +58,8 @@ class TrendCell : UICollectionViewCell {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(PlayListCell.self, forCellWithReuseIdentifier: resuseIdentifer)
-        collectionView.register(WeeklyCell.self, forCellWithReuseIdentifier: resuseWeeklyIdentifer)
+        collectionView.register(addCell.self, forCellWithReuseIdentifier: resuseAddIdentifer)
+        collectionView.register(WordCell.self, forCellWithReuseIdentifier: reuseWordIdentifer)
         
         collectionView.anchor(top : topAnchor,left : leftAnchor,bottom: bottomAnchor,right: rightAnchor)
         
@@ -60,8 +73,33 @@ class TrendCell : UICollectionViewCell {
     }
 }
 
+
+
 extension TrendCell : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        if cellType == .week {
+            if !stickyWords.isEmpty {
+                return 2
+
+            }
+        }
+        
+        return 1
+    }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        if cellType == .week {
+            
+            switch section {
+            case 0:
+                return 1
+            case 1 :
+                return stickyWords.count
+            default:
+                return 0
+            }
+        }
 
         return 6
     }
@@ -70,16 +108,28 @@ extension TrendCell : UICollectionViewDelegate, UICollectionViewDataSource, UICo
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: resuseIdentifer, for: indexPath) as! PlayListCell
         
-        let weeklyCell = collectionView.dequeueReusableCell(withReuseIdentifier: resuseWeeklyIdentifer, for: indexPath) as! WeeklyCell
+        let weeklyCell = collectionView.dequeueReusableCell(withReuseIdentifier: resuseAddIdentifer, for: indexPath) as! addCell
+        let wordCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseWordIdentifer, for: indexPath) as! WordCell
         
         guard let celltype = cellType else {return cell}
  
         switch celltype {
         case .week :
             
-            weeklyCell.weekLabel.text = weekleArray[indexPath.item]
-
-            return weeklyCell
+            switch indexPath.section {
+            case 0:
+//                weeklyCell.setPlusButton()
+                weeklyCell.layer.borderColor = UIColor.red.cgColor
+                return weeklyCell
+            case 1 :
+                wordCell.word = stickyWords[indexPath.item]
+          
+                return wordCell
+            default:
+                return weeklyCell
+            }
+            
+//            weeklyCell.weekLabel.text = weekleArray[indexPath.item]
         case .allnight:
             cell.radio = allnights[indexPath.row]
         case .junk :
@@ -102,7 +152,26 @@ extension TrendCell : UICollectionViewDelegate, UICollectionViewDataSource, UICo
         delegate?.didScrollCell(cell: self, indexPath: indexPath)
         
         var radio : Radio?
+        var word : String?
+        
         switch cellType {
+            
+        case .week :
+            switch indexPath.section {
+            case 0:
+                addStiockyWord(indexPath: indexPath)
+                return
+            case 1 :
+                word = stickyWords[indexPath.item]
+                
+                guard let word = word else {return}
+                delegate?.didTappedRadio(title: word)
+                
+                return
+            default:
+                return
+            }
+            
 
         case .allnight :
             radio = allnights[indexPath.item]
@@ -121,6 +190,31 @@ extension TrendCell : UICollectionViewDelegate, UICollectionViewDataSource, UICo
         
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+    }
+    
+    
+    private func addStiockyWord(indexPath : IndexPath) {
+        var alertTextField : UITextField?
+        
+        let alert = UIAlertController(title: "Add Favorite", message: "Register You often use Word", preferredStyle: .alert)
+        alert.addTextField { (textField) in
+            alertTextField = textField
+            textField.placeholder = "Search Word"
+        }
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (_) in
+            
+            if let text = alertTextField?.text {
+                self.stickyWords.append(text)
+            }
+        }))
+        
+        delegate?.presentAlert(alert: alert)
+        
+    }
     
  
     

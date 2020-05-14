@@ -145,6 +145,10 @@ extension TrendViewController : UICollectionViewDelegateFlowLayout {
 //MARK: - TrendCell Delegate
 
 extension TrendViewController : TrendCellDelegate {
+    func presentAlert(alert: UIAlertController) {
+        self.present(alert, animated: true, completion: nil)
+    }
+    
    
     func didScrollCell(cell: TrendCell, indexPath: IndexPath) {
         cell.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
