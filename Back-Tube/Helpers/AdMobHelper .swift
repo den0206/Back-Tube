@@ -8,6 +8,7 @@
 
 import GoogleMobileAds
 
+
 class AdMobHelper : NSObject {
     
     static let shared = AdMobHelper()

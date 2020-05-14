@@ -76,7 +76,8 @@ class SearchResultController: UITableViewController {
         bannerView.centerX(inView: view)
         bannerView.anchor(bottom: self.tabBarController?.tabBar.topAnchor,width: 320,height: 50)
         
-        AdMobHelper.shared.setupBannerAd(adBaseView: bannerView, rootVC: self,bannerId: BannerID1)
+        /// banner 2
+        AdMobHelper.shared.setupBannerAd(adBaseView: bannerView, rootVC: self,bannerId: AdMobID.bannerViewTest.rawValue)
         
         
     }
@@ -136,7 +137,9 @@ class SearchResultController: UITableViewController {
                     self.tableView.tableFooterView?.isHidden = true
                 }
             case .failed(let error) :
-                print(error)
+               
+              
+                print("エラー" + error.localizedDescription)
                 
                 self.tabBarController?.showPresentLoadindView(false)
 
@@ -235,7 +238,8 @@ extension SearchResultController : GADInterstitialDelegate {
     
     
     func createAndLoadInterstitial() -> GADInterstitial {
-        let interstitial = GADInterstitial(adUnitID: InterstitialID)
+        /// Interstitial 1 (AD)
+        let interstitial = GADInterstitial(adUnitID: AdMobID.InterstitialTest.rawValue)
         interstitial.delegate = self
         interstitial.load(GADRequest())
         return interstitial
@@ -273,7 +277,7 @@ extension SearchResultController : GADInterstitialDelegate {
                 
                 
             case .failed(let error) :
-                
+        
                 print(error.localizedDescription)
                 
                 self.tabBarController?.showPresentLoadindView(false)

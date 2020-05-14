@@ -59,8 +59,9 @@ class SearchViewController : UITableViewController {
         view.addSubview(bannerView)
         bannerView.centerX(inView: view)
         bannerView.anchor(bottom: self.tabBarController?.tabBar.topAnchor,width: 320,height: 50)
-
-        AdMobHelper.shared.setupBannerAd(adBaseView: bannerView, rootVC: self,bannerId: BannerID1)
+        
+        /// banner1
+        AdMobHelper.shared.setupBannerAd(adBaseView: bannerView, rootVC: self,bannerId: AdMobID.bannerViewTest.rawValue)
         
         
     }

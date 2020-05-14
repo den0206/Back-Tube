@@ -96,7 +96,8 @@ class PopupViewController : UIViewController {
         popView.frame = CGRect(x: screenWidth / 8, y: screenHeight / 5, width: 300, height: 300)
         self.view.addSubview(popView)
         
-         AdMobHelper.shared.mediumBannerAd(adBaseView: popView, rootVC: self, bannerId: BannerID1)
+        /// banner 3
+         AdMobHelper.shared.mediumBannerAd(adBaseView: popView, rootVC: self, bannerId: AdMobID.bannerViewTest.rawValue)
         
         
 
@@ -146,9 +147,8 @@ class PopupViewController : UIViewController {
             self.view.removeFromSuperview()
             return}
             
-            self.tabBarController?.showPresentLoadindView(true)
-            
             self.view.removeFromSuperview()
+            
             
             delegate?.relatedVideo(videoId: videoId, title: searchWord)
             

@@ -84,7 +84,8 @@ class PlayingViewController: UIViewController {
         bannerView.centerX(inView: view)
         bannerView.anchor(bottom: self.tabBarController?.tabBar.topAnchor,width: 320,height: 50)
         
-        AdMobHelper.shared.setupBannerAd(adBaseView: bannerView, rootVC: self,bannerId: BannerID1)
+        /// banner4
+        AdMobHelper.shared.setupBannerAd(adBaseView: bannerView, rootVC: self,bannerId: AdMobID.bannerViewTest.rawValue)
         
         
     }
@@ -242,6 +243,8 @@ extension PlayingViewController : UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        tableView.deselectRow(at: indexPath, animated: true)
+        
         AVPlayerViewControllerManager.shared.controller.player?.pause()
         
         let result = relatedVideos[indexPath.row]
@@ -271,6 +274,7 @@ extension PlayingViewController : UITableViewDelegate,UITableViewDataSource {
         
         
         
+        
 //        weak var pvc = self.presentingViewController
 //
 //        self.dismiss(animated: true) {
@@ -291,6 +295,7 @@ extension PlayingViewController : UITableViewDelegate,UITableViewDataSource {
 
 extension PlayingViewController : PopViewControllerDelegate {
     func relatedVideo(videoId: String, title: String) {
+        self.tabBarController?.showPresentLoadindView(true)
         
         /// get related Video
         self.videoId = videoId
