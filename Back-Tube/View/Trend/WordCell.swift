@@ -19,8 +19,8 @@ class WordCell : UICollectionViewCell {
     
     let stickyLabel : UILabel = {
         let label = UILabel()
-//        label.text = "月"
-        label.lineBreakMode = .byTruncatingTail
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
         label.textColor = .white
         label.font = UIFont.boldSystemFont(ofSize: 25)
         return label
@@ -34,7 +34,6 @@ class WordCell : UICollectionViewCell {
         
         
         addSubview(stickyLabel)
-//        stickyLabel.anchor(top : topAnchor,bottom: bottomAnchor,right: rightAnchor)
         stickyLabel.center(inView: self)
         
      

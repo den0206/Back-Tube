@@ -32,11 +32,13 @@ class TrendCell : UICollectionViewCell {
         didSet {
             if cellType == .week
             {
+                
                 collectionView.reloadData()
             }
         }
     }
     
+    let userDefaults = UserDefaults.standard
 
     /// Uiimage Arrays
     
@@ -61,9 +63,12 @@ class TrendCell : UICollectionViewCell {
         collectionView.register(addCell.self, forCellWithReuseIdentifier: resuseAddIdentifer)
         collectionView.register(WordCell.self, forCellWithReuseIdentifier: reuseWordIdentifer)
         
+        
         collectionView.anchor(top : topAnchor,left : leftAnchor,bottom: bottomAnchor,right: rightAnchor)
         
-    
+//        userDefaults.removeObject(forKey: "stickyWords")
+        
+        stickyWords = getSticktyWords()
        
         
     }
@@ -108,7 +113,7 @@ extension TrendCell : UICollectionViewDelegate, UICollectionViewDataSource, UICo
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: resuseIdentifer, for: indexPath) as! PlayListCell
         
-        let weeklyCell = collectionView.dequeueReusableCell(withReuseIdentifier: resuseAddIdentifer, for: indexPath) as! addCell
+        let addCell = collectionView.dequeueReusableCell(withReuseIdentifier: resuseAddIdentifer, for: indexPath) as! addCell
         let wordCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseWordIdentifer, for: indexPath) as! WordCell
         
         guard let celltype = cellType else {return cell}
@@ -118,18 +123,15 @@ extension TrendCell : UICollectionViewDelegate, UICollectionViewDataSource, UICo
             
             switch indexPath.section {
             case 0:
-//                weeklyCell.setPlusButton()
-                weeklyCell.layer.borderColor = UIColor.red.cgColor
-                return weeklyCell
+                return addCell
             case 1 :
                 wordCell.word = stickyWords[indexPath.item]
-          
+                wordCell.stickyLabel.widthAnchor.constraint(lessThanOrEqualToConstant: self.frame.height).isActive = true
                 return wordCell
             default:
-                return weeklyCell
+                return addCell
             }
             
-//            weeklyCell.weekLabel.text = weekleArray[indexPath.item]
         case .allnight:
             cell.radio = allnights[indexPath.row]
         case .junk :
@@ -194,6 +196,26 @@ extension TrendCell : UICollectionViewDelegate, UICollectionViewDataSource, UICo
         return UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
     }
     
+   
+}
+
+extension UICollectionView {
+    func nowPosition(cell : UICollectionViewCell) -> CGRect {
+        let point = CGPoint(x: cell.frame.origin.x - self.contentOffset.x, y: cell.frame.origin.y - self.contentOffset.y)
+        let size = cell.bounds.size
+        
+        return CGRect(x: point.x, y: point.y, width: size.width, height: size.height)
+    }
+    
+    
+    
+}
+
+//MARK: - Generate Sticky Words
+
+extension TrendCell {
+    
+    //MARK: - Alert
     
     private func addStiockyWord(indexPath : IndexPath) {
         var alertTextField : UITextField?
@@ -208,7 +230,7 @@ extension TrendCell : UICollectionViewDelegate, UICollectionViewDataSource, UICo
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (_) in
             
             if let text = alertTextField?.text {
-                self.stickyWords.append(text)
+                self.addStickyWords(text: text)
             }
         }))
         
@@ -216,19 +238,36 @@ extension TrendCell : UICollectionViewDelegate, UICollectionViewDataSource, UICo
         
     }
     
- 
-    
-   
-}
-
-extension UICollectionView {
-    func nowPosition(cell : UICollectionViewCell) -> CGRect {
-        let point = CGPoint(x: cell.frame.origin.x - self.contentOffset.x, y: cell.frame.origin.y - self.contentOffset.y)
-        let size = cell.bounds.size
+    private func getSticktyWords() -> [String] {
         
-        return CGRect(x: point.x, y: point.y, width: size.width, height: size.height)
+        if let words = userDefaults.array(forKey: "stickyWords") as? [String] {
+            return words
+        }
+        
+        return [String]()
     }
     
+    //MARK: - add user Default
+    
+    private func addStickyWords(text : String) {
+        
+        stickyWords = getSticktyWords()
+        
+        for word in stickyWords {
+            if word == text {
+                return
+            }
+        }
+        
+        if stickyWords.count == 6 {
+            stickyWords.removeLast()
+        }
+        
+        stickyWords.insert(text, at: 0)
+        userDefaults.set(stickyWords, forKey: "stickyWords")
+        
+        
+    }
     
     
 }

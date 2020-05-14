@@ -73,15 +73,5 @@ class PlayListCell : UICollectionViewCell {
     }
     
  
-//    private func configure() {
-//
-//     guard let searchResult =  video else {return}
-//     titleLabel.text = searchResult.snippet.title
-//
-//     guard let thumanail = searchResult.snippet.thumbnails.medium.url else {return}
-//     let url = URL(string: thumanail)
-//
-//     playlistImageView.sd_setImage(with: url)
-//
-//    }
+
 }
