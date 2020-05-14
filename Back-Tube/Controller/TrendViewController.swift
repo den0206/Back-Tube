@@ -21,7 +21,7 @@ enum TrendCellType {
 class TrendViewController : UICollectionViewController {
 
 
-    var sectionTitles : [String] = ["All", "AllNight", "Junk"]
+    var sectionTitles : [String] = ["Favorite", "AllNight", "Junk"]
 
     init() {
         super.init(collectionViewLayout: UICollectionViewFlowLayout())

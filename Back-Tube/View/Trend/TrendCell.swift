@@ -127,6 +127,9 @@ extension TrendCell : UICollectionViewDelegate, UICollectionViewDataSource, UICo
             case 1 :
                 wordCell.word = stickyWords[indexPath.item]
                 wordCell.stickyLabel.widthAnchor.constraint(lessThanOrEqualToConstant: self.frame.height).isActive = true
+                
+                let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.longPress(_:)))
+                wordCell.addGestureRecognizer(longPressGesture)
                 return wordCell
             default:
                 return addCell
@@ -220,7 +223,7 @@ extension TrendCell {
     private func addStiockyWord(indexPath : IndexPath) {
         var alertTextField : UITextField?
         
-        let alert = UIAlertController(title: "Add Favorite", message: "Register You often use Word", preferredStyle: .alert)
+        let alert = UIAlertController(title: "お気に入りを登録", message: "検索する文字を追加できます", preferredStyle: .alert)
         alert.addTextField { (textField) in
             alertTextField = textField
             textField.placeholder = "Search Word"
@@ -267,6 +270,35 @@ extension TrendCell {
         userDefaults.set(stickyWords, forKey: "stickyWords")
         
         
+    }
+    
+    //MARK: - Delete
+    
+    @objc func longPress(_ longPressGestureRecognizer: UILongPressGestureRecognizer) {
+        
+        if longPressGestureRecognizer.state == UIGestureRecognizer.State.began {
+            let touchPoint = longPressGestureRecognizer.location(in: collectionView)
+            if let index = collectionView.indexPathForItem(at: touchPoint) {
+                deleteAlert(index: index)
+
+            }
+        }
+    }
+    
+    private func deleteAlert(index : IndexPath) {
+        let wotd = stickyWords[index.item]
+        
+        let alert = UIAlertController(title: "Delete", message: "\(wotd)を削除しても宜しいでしょうか？", preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { (_) in
+            self.collectionView.deleteItems(at: [index])
+            self.stickyWords.remove(at: index.row)
+            self.userDefaults.set(self.stickyWords, forKey: "stickyWords")
+            
+        }))
+        
+        delegate?.presentAlert(alert: alert)
     }
     
     
