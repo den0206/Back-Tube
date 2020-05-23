@@ -210,6 +210,32 @@ extension SearchResultController {
     
     /// more button
     
+    /// add Favorite
+    
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+   
+        let favoriteAction = UIContextualAction(style: .normal, title: "お気に入りに追加") { (action, view, completion) in
+            
+            let title = self.searchResults[indexPath.item].snippet.title
+            guard let videoId = self.searchResults[indexPath.item].id.videoID else {return}
+            guard let thumbnail = self.searchResults[indexPath.item].snippet.thumbnails.default.url else {return}
+            
+            
+            print(title, videoId,thumbnail)
+            
+            
+            
+            
+        }
+        favoriteAction.backgroundColor = .blue
+        
+        let configuration = UISwipeActionsConfiguration(actions: [favoriteAction])
+        
+        return configuration
+        
+    }
+    
 
     
 }

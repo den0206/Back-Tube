@@ -32,7 +32,7 @@ let allnights : [Allnight] = [
     Allnight(title: "菅田", thumbnailImage: UIImage(named: "allnight-mon")!),
     Allnight(title: "星野源", thumbnailImage: UIImage(named:"allnight-tue")!),
     Allnight(title: "乃木坂46", thumbnailImage:  UIImage(named: "allnight-wed")!),
-    Allnight(title: "岡村隆史", thumbnailImage:  UIImage(named: "allnight-thu")!),
+    Allnight(title: "ナインティナイン", thumbnailImage:  UIImage(named: "allnight-thu")!),
     Allnight(title: "三四郎", thumbnailImage:  UIImage(named: "allnight-fry")!),
     Allnight(title: "オードリー ", thumbnailImage:   UIImage(named: "allnight-sat")!)
 ]
