@@ -85,7 +85,14 @@ class PlayingViewController: UIViewController {
         bannerView.anchor(bottom: self.tabBarController?.tabBar.topAnchor,width: 320,height: 50)
         
         /// banner4
-        AdMobHelper.shared.setupBannerAd(adBaseView: bannerView, rootVC: self,bannerId: AdMobID.bannerViewTest.rawValue)
+        
+        if admob_test {
+            AdMobHelper.shared.setupBannerAd(adBaseView: bannerView, rootVC: self,bannerId: AdMobID.bannerViewTest.rawValue)
+
+        } else {
+            AdMobHelper.shared.setupBannerAd(adBaseView: bannerView, rootVC: self,bannerId: AdMobID.adBanner4.rawValue)
+
+        }
         
         
     }

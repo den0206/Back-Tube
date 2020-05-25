@@ -97,7 +97,14 @@ class PopupViewController : UIViewController {
         self.view.addSubview(popView)
         
         /// banner 3
-         AdMobHelper.shared.mediumBannerAd(adBaseView: popView, rootVC: self, bannerId: AdMobID.bannerViewTest.rawValue)
+        ///
+        if admob_test {
+            AdMobHelper.shared.setupBannerAd(adBaseView: popView, rootVC: self,bannerId: AdMobID.bannerViewTest.rawValue)
+
+        } else {
+            AdMobHelper.shared.setupBannerAd(adBaseView: popView, rootVC: self,bannerId: AdMobID.adBanner3.rawValue)
+
+        }
         
         
 

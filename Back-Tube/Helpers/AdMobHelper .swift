@@ -8,6 +8,7 @@
 
 import GoogleMobileAds
 
+let admob_test = true
 
 class AdMobHelper : NSObject {
     
@@ -20,15 +21,15 @@ class AdMobHelper : NSObject {
    
     func setupBannerAd(adBaseView: UIView, rootVC: UIViewController,bannerId : String) {
         let adView = GADBannerView(adSize: kGADAdSizeBanner)
-        #if DEBUG
+//        #if DEBUG
         adView.adUnitID = bannerId
-        #else
-        if rootVC is ViewController {
-            adView.adUnitID = bannerId
-        } else if rootVC is ViewController2 {
-            adView.adUnitID = bannerId
-        }
-        #endif
+//        #else
+//        if rootVC is ViewController {
+//            adView.adUnitID = bannerId
+//        } else if rootVC is ViewController2 {
+//            adView.adUnitID = bannerId
+//        }
+//        #endif
         adView.rootViewController = rootVC
         adView.load(GADRequest())
         adBaseView.addSubview(adView)
@@ -41,15 +42,15 @@ class AdMobHelper : NSObject {
     
     func mediumBannerAd(adBaseView: UIView, rootVC: UIViewController,bannerId : String) {
         let adView = GADBannerView(adSize: kGADAdSizeMediumRectangle)
-        #if DEBUG
+//        #if DEBUG
         adView.adUnitID = bannerId
-        #else
-        if rootVC is ViewController {
-            adView.adUnitID = bannerId
-        } else if rootVC is ViewController2 {
-            adView.adUnitID = bannerId
-        }
-        #endif
+//        #else
+//        if rootVC is ViewController {
+//            adView.adUnitID = bannerId
+//        } else if rootVC is ViewController2 {
+//            adView.adUnitID = bannerId
+//        }
+//        #endif
         adView.rootViewController = rootVC
         adView.load(GADRequest())
         adBaseView.addSubview(adView)

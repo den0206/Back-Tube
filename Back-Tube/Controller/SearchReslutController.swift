@@ -77,7 +77,14 @@ class SearchResultController: UITableViewController {
         bannerView.anchor(bottom: self.tabBarController?.tabBar.topAnchor,width: 320,height: 50)
         
         /// banner 2
-        AdMobHelper.shared.setupBannerAd(adBaseView: bannerView, rootVC: self,bannerId: AdMobID.bannerViewTest.rawValue)
+        
+        if admob_test {
+            AdMobHelper.shared.setupBannerAd(adBaseView: bannerView, rootVC: self,bannerId: AdMobID.bannerViewTest.rawValue)
+
+        } else {
+            AdMobHelper.shared.setupBannerAd(adBaseView: bannerView, rootVC: self,bannerId: AdMobID.adBanner2.rawValue)
+
+        }
         
         
     }
@@ -265,7 +272,14 @@ extension SearchResultController : GADInterstitialDelegate {
     
     func createAndLoadInterstitial() -> GADInterstitial {
         /// Interstitial 1 (AD)
-        let interstitial = GADInterstitial(adUnitID: AdMobID.InterstitialTest.rawValue)
+        let interstitial : GADInterstitial
+           
+        if admob_test == true {
+            interstitial  = GADInterstitial(adUnitID: AdMobID.InterstitialTest.rawValue)
+        } else {
+            interstitial = GADInterstitial(adUnitID: AdMobID.inter1.rawValue)
+        }
+            
         interstitial.delegate = self
         interstitial.load(GADRequest())
         return interstitial
