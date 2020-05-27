@@ -232,7 +232,7 @@ extension TrendCell {
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (_) in
             
-            if let text = alertTextField?.text {
+            if let text = alertTextField?.text{
                 self.addStickyWords(text: text)
             }
         }))
@@ -253,6 +253,8 @@ extension TrendCell {
     //MARK: - add user Default
     
     private func addStickyWords(text : String) {
+        
+        guard text != "" else {return}
         
         stickyWords = getSticktyWords()
         
