@@ -8,6 +8,7 @@
 
 import UIKit
 import YoutubeKit
+import RealmSwift
 import GoogleMobileAds
 
 private let reuseIdentifer = "Cell"
@@ -221,15 +222,33 @@ extension SearchResultController {
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
-   
+        let realm = try! Realm()
+        let favorite = Favorite()
+        
         let favoriteAction = UIContextualAction(style: .normal, title: "お気に入りに追加") { (action, view, completion) in
             
             let title = self.searchResults[indexPath.item].snippet.title
             guard let videoId = self.searchResults[indexPath.item].id.videoID else {return}
             guard let thumbnail = self.searchResults[indexPath.item].snippet.thumbnails.default.url else {return}
+//
+          
+            
+            if realm.objects(Favorite.self).count != 0 {
+                favorite.id = realm.objects(Favorite.self).max(ofProperty: "id")! + 1
+            }
             
             
-            print(title, videoId,thumbnail)
+            try! realm.write {
+                favorite.title = title
+                favorite.videoId = videoId
+                favorite.thumbnailUrl = thumbnail
+                
+                
+                realm.add(favorite, update: .all)
+                
+                print(Realm.Configuration.defaultConfiguration.fileURL!)
+                
+            }
             
             
             

@@ -17,7 +17,13 @@ class PlayListCell : UICollectionViewCell {
             configure()
         }
     }
- 
+    
+    var favorite : Favorite? {
+        didSet {
+            configureFavorite()
+        }
+    }
+    
     //MARK: - Parts
     
     let weeklyLable : UILabel? = {
@@ -72,6 +78,15 @@ class PlayListCell : UICollectionViewCell {
         playlistImageView.image = radio.thumbnailImage
     }
     
+    private func configureFavorite() {
+        
+        guard let favorite = favorite else {return}
+        
+        titleLabel.text = favorite.title
+        
+        let thumbnailUrl = URL(string: favorite.thumbnailUrl)
+        playlistImageView.sd_setImage(with: thumbnailUrl)
+    }
  
 
 }

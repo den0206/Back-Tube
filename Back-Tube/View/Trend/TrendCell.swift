@@ -8,6 +8,7 @@
 
 import UIKit
 import YoutubeKit
+import RealmSwift
 
 protocol TrendCellDelegate {
     
@@ -35,6 +36,11 @@ class TrendCell : UICollectionViewCell {
                 
                 collectionView.reloadData()
             }
+        }
+    }
+    
+    var favoriteVideos : Results<Favorite>? {
+        didSet {
         }
     }
     
@@ -104,7 +110,11 @@ extension TrendCell : UICollectionViewDelegate, UICollectionViewDataSource, UICo
             default:
                 return 0
             }
+        } else if cellType == .favorite {
+            return favoriteVideos!.count
         }
+        
+    
 
         return 6
     }
@@ -140,7 +150,10 @@ extension TrendCell : UICollectionViewDelegate, UICollectionViewDataSource, UICo
         case .junk :
             cell.radio = junks[indexPath.item]
 
+        case .favorite:
+            cell.favorite = favoriteVideos![indexPath.item]
         }
+        
         
         
         return cell

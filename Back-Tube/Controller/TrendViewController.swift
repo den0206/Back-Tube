@@ -8,6 +8,7 @@
 
 import UIKit
 import YoutubeKit
+import RealmSwift
 
 private let resuseIdentifer = "TrendCell"
 private let headerIdentifer = "SectionHeader"
@@ -16,12 +17,15 @@ enum TrendCellType {
     case week
     case allnight
     case junk
+    case favorite
 }
 
 class TrendViewController : UICollectionViewController {
 
 
     var sectionTitles : [String] = ["Favorite", "AllNight", "Junk"]
+    
+    var favotiteVideos : Results<Favorite>!
 
     init() {
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
@@ -35,6 +39,8 @@ class TrendViewController : UICollectionViewController {
         super.viewDidLoad()
        
         configureCV()
+        
+        checkFavorite()
 //        fetchTrends()
     }
     
@@ -55,6 +61,21 @@ class TrendViewController : UICollectionViewController {
         
     }
     
+    private func  checkFavorite() {
+        let realm = try! Realm()
+        
+        
+        favotiteVideos = realm.objects(Favorite.self).sorted(byKeyPath: "id", ascending: true)
+        
+        if favotiteVideos.count > 0 {
+            sectionTitles.append("Favorite")
+            
+        }
+        
+        print(Realm.Configuration.defaultConfiguration.fileURL!)
+
+    }
+
     //MARK: - Youtibe API
     
 //    private func fetchTrends() {
@@ -73,7 +94,7 @@ class TrendViewController : UICollectionViewController {
 extension TrendViewController {
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 3
+        return sectionTitles.count
     }
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 1
@@ -92,7 +113,9 @@ extension TrendViewController {
             cell.cellType = .allnight
         case 2:
             cell.cellType = .junk
-     
+        case 3 :
+            cell.cellType = .favorite
+            cell.favoriteVideos = favotiteVideos
         default:
             cell.cellType = .none
         }
