@@ -21,11 +21,6 @@ class MainTabController : UITabBarController {
         
     }
     
-//    override func viewWillLayoutSubviews() {
-//
-//        configurePlayerView()
-//    }
-    
     //MARK: - UI
     
     func configureTabController() {

@@ -246,6 +246,13 @@ extension SearchResultController {
                 
                 realm.add(favorite, update: .all)
                 
+                
+                /// max 6
+                if realm.objects(Favorite.self).count == 7 {
+                    realm.delete(realm.objects(Favorite.self).first!)
+                }
+
+                
                 print(Realm.Configuration.defaultConfiguration.fileURL!)
                 
             }

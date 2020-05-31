@@ -126,6 +126,9 @@ extension TrendCell : UICollectionViewDelegate, UICollectionViewDataSource, UICo
         let addCell = collectionView.dequeueReusableCell(withReuseIdentifier: resuseAddIdentifer, for: indexPath) as! addCell
         let wordCell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseWordIdentifer, for: indexPath) as! WordCell
         
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.longPress(_:)))
+
+        
         guard let celltype = cellType else {return cell}
  
         switch celltype {
@@ -138,7 +141,6 @@ extension TrendCell : UICollectionViewDelegate, UICollectionViewDataSource, UICo
                 wordCell.word = stickyWords[indexPath.item]
                 wordCell.stickyLabel.widthAnchor.constraint(lessThanOrEqualToConstant: self.frame.height).isActive = true
                 
-                let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.longPress(_:)))
                 wordCell.addGestureRecognizer(longPressGesture)
                 return wordCell
             default:
@@ -152,6 +154,8 @@ extension TrendCell : UICollectionViewDelegate, UICollectionViewDataSource, UICo
 
         case .favorite:
             cell.favorite = favoriteVideos![indexPath.item]
+            
+            cell.addGestureRecognizer(longPressGesture)
         }
         
         
@@ -171,6 +175,7 @@ extension TrendCell : UICollectionViewDelegate, UICollectionViewDataSource, UICo
         
         var radio : Radio?
         var word : String?
+        var favorite : Favorite?
         
         switch cellType {
             
@@ -196,6 +201,10 @@ extension TrendCell : UICollectionViewDelegate, UICollectionViewDataSource, UICo
 
         case .junk :
             radio = junks[indexPath.item]
+            
+        case .favorite :
+            favorite = favoriteVideos![indexPath.item]
+
         default :
             return
 
@@ -295,25 +304,50 @@ extension TrendCell {
             let touchPoint = longPressGestureRecognizer.location(in: collectionView)
             if let index = collectionView.indexPathForItem(at: touchPoint) {
                 deleteAlert(index: index)
-
+                
             }
         }
     }
     
     private func deleteAlert(index : IndexPath) {
-        let wotd = stickyWords[index.item]
         
-        let alert = UIAlertController(title: "Delete", message: "\(wotd)を削除しても宜しいでしょうか？", preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        
-        alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { (_) in
-            self.collectionView.deleteItems(at: [index])
-            self.stickyWords.remove(at: index.row)
-            self.userDefaults.set(self.stickyWords, forKey: "stickyWords")
+        switch cellType {
+        case .week:
+            let wotd = stickyWords[index.item]
             
-        }))
-        
-        delegate?.presentAlert(alert: alert)
+            let alert = UIAlertController(title: "Delete", message: "\(wotd)を削除しても宜しいでしょうか？", preferredStyle: .actionSheet)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            
+            alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { (_) in
+                self.collectionView.deleteItems(at: [index])
+                self.stickyWords.remove(at: index.row)
+                self.userDefaults.set(self.stickyWords, forKey: "stickyWords")
+                
+            }))
+            
+            delegate?.presentAlert(alert: alert)
+            
+        case .favorite :
+            let realm = try! Realm()
+            let favorite = favoriteVideos![index.item]
+            
+            let alert = UIAlertController(title: "Delete", message: "お気に入りを削除しても宜しいでしょうか？", preferredStyle: .actionSheet)
+           alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+           
+           alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { (_) in
+               self.collectionView.deleteItems(at: [index])
+            
+            try! realm.write {
+                realm.delete(favorite)
+            }
+               
+           }))
+           
+           delegate?.presentAlert(alert: alert)
+        default:
+            return
+        }
+      
     }
     
     

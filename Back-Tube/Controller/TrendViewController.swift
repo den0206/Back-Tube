@@ -44,6 +44,7 @@ class TrendViewController : UICollectionViewController {
 //        fetchTrends()
     }
     
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
@@ -65,7 +66,7 @@ class TrendViewController : UICollectionViewController {
         let realm = try! Realm()
         
         
-        favotiteVideos = realm.objects(Favorite.self).sorted(byKeyPath: "id", ascending: true)
+        favotiteVideos = realm.objects(Favorite.self).sorted(byKeyPath: "id", ascending: false)
         
         if favotiteVideos.count > 0 {
             sectionTitles.append("Favorite")
