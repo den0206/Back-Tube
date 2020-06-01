@@ -22,18 +22,26 @@ enum TrendCellType {
 
 class TrendViewController : UICollectionViewController {
 
-
-    var sectionTitles : [String] = ["Favorite", "AllNight", "Junk"]
+    
+    lazy var sectionTitles : [String] =  {
+        if favotiteVideos.count > 0 {
+           return ["Favorite", "AllNight", "Junk", "Favorite"]
+        }
+        
+        return ["Favorite", "AllNight", "Junk"]
+    }()
     
     var favotiteVideos : Results<Favorite>!
 
     init() {
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
+        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,6 +56,8 @@ class TrendViewController : UICollectionViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
+        
+
     }
     
     private func configureCV() {
@@ -68,12 +78,14 @@ class TrendViewController : UICollectionViewController {
         
         favotiteVideos = realm.objects(Favorite.self).sorted(byKeyPath: "id", ascending: false)
         
-        if favotiteVideos.count > 0 {
-            sectionTitles.append("Favorite")
-            
-        }
+    
+//
+//        if favotiteVideos.count > 0 {
+//            sectionTitles.append("Favorite")
+//
+//        }
         
-        print(Realm.Configuration.defaultConfiguration.fileURL!)
+//        print(Realm.Configuration.defaultConfiguration.fileURL!)
 
     }
 
@@ -169,6 +181,7 @@ extension TrendViewController : UICollectionViewDelegateFlowLayout {
 //MARK: - TrendCell Delegate
 
 extension TrendViewController : TrendCellDelegate {
+
     func presentAlert(alert: UIAlertController) {
         self.present(alert, animated: true, completion: nil)
     }
@@ -187,11 +200,11 @@ extension TrendViewController : TrendCellDelegate {
         navigationController?.pushViewController(resultVC, animated: true)
     }
     
-       
-    
-    
-    
+
+
 }
+
+
 
 extension UICollectionView {
     func scrollToNextItem() {

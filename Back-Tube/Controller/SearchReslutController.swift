@@ -15,10 +15,9 @@ private let reuseIdentifer = "Cell"
 
 
 class SearchResultController: UITableViewController {
-    
+
     var searchWord : String
-    
-    
+        
     var nextPageToken : String? 
     var toatlResultCount : Int?
     
@@ -251,8 +250,7 @@ extension SearchResultController {
                 if realm.objects(Favorite.self).count == 7 {
                     realm.delete(realm.objects(Favorite.self).first!)
                 }
-
-                
+                            
                 print(Realm.Configuration.defaultConfiguration.fileURL!)
                 
             }

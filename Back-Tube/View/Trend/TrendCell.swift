@@ -39,8 +39,17 @@ class TrendCell : UICollectionViewCell {
         }
     }
     
+    var token : NotificationToken!
+    
     var favoriteVideos : Results<Favorite>? {
         didSet {
+          
+            /// sync Realm
+            guard let favoriteVideos = favoriteVideos else {return}
+            
+            token = favoriteVideos.observe { [weak self] _ in
+                self?.collectionView.reloadData()
+            }
         }
     }
     
