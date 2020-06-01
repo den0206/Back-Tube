@@ -24,13 +24,11 @@ class TrendViewController : UICollectionViewController {
 
     
     lazy var sectionTitles : [String] =  {
-        if favotiteVideos.count > 0 {
-           return ["Favorite", "AllNight", "Junk", "Favorite"]
-        }
         
-        return ["Favorite", "AllNight", "Junk"]
+        return getSectionTitles()
     }()
     
+    var token : NotificationToken!
     var favotiteVideos : Results<Favorite>!
 
     init() {
@@ -47,8 +45,8 @@ class TrendViewController : UICollectionViewController {
         super.viewDidLoad()
        
         configureCV()
-        
         checkFavorite()
+
 //        fetchTrends()
     }
     
@@ -56,8 +54,8 @@ class TrendViewController : UICollectionViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
-        
-
+                
+       
     }
     
     private func configureCV() {
@@ -77,30 +75,17 @@ class TrendViewController : UICollectionViewController {
         
         
         favotiteVideos = realm.objects(Favorite.self).sorted(byKeyPath: "id", ascending: false)
-        
-    
-//
-//        if favotiteVideos.count > 0 {
-//            sectionTitles.append("Favorite")
-//
-//        }
-        
-//        print(Realm.Configuration.defaultConfiguration.fileURL!)
 
     }
-
-    //MARK: - Youtibe API
     
-//    private func fetchTrends() {
-//        YoutubeService.shared.fetchTrend { (results, error) in
-//
-//            if error != nil {
-//                self.showErrorAlert(message: error!.localizedDescription)
-//            }
-//            self.resultArrays = results
-//            print(self.resultArrays.count)
-//        }
-//    }
+    private func getSectionTitles() -> [String] {
+        if favotiteVideos.count > 0 {
+           return ["Favorite", "AllNight", "Junk", "Favorite"]
+        }
+        
+        return ["Favorite", "AllNight", "Junk"]
+    }
+    //MARK: - Youtibe API
 
 
 }
@@ -181,6 +166,22 @@ extension TrendViewController : UICollectionViewDelegateFlowLayout {
 //MARK: - TrendCell Delegate
 
 extension TrendViewController : TrendCellDelegate {
+    
+    func didTappedFavorite(favorite: Favorite?) {
+        
+        guard let favorite = favorite else {return}
+        
+        self.tabBarController?.showPresentLoadindView(true)
+
+        let playingVC = tabBarController?.viewControllers![2] as! PlayingViewController
+        self.tabBarController?.selectedIndex = 2
+        
+        playingVC.videoId = favorite.videoId
+        playingVC.relatedTitle = favorite.title
+    }
+    
+    
+  
 
     func presentAlert(alert: UIAlertController) {
         self.present(alert, animated: true, completion: nil)

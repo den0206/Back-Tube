@@ -11,7 +11,7 @@ import RealmSwift
 class Favorite : Object {
     
     @objc dynamic var id = 0
-    @objc var videoId = ""
+    @objc dynamic var videoId = ""
     @objc dynamic var title = ""
     @objc dynamic var thumbnailUrl = ""
     

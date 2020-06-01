@@ -14,7 +14,7 @@ protocol TrendCellDelegate {
     
     func didScrollCell(cell : TrendCell, indexPath : IndexPath)
     func didTappedRadio(title : String)
-    
+    func didTappedFavorite(favorite : Favorite?)
     func presentAlert(alert : UIAlertController)
 }
 
@@ -213,6 +213,7 @@ extension TrendCell : UICollectionViewDelegate, UICollectionViewDataSource, UICo
             
         case .favorite :
             favorite = favoriteVideos![indexPath.item]
+            delegate?.didTappedFavorite(favorite: favorite)
 
         default :
             return
