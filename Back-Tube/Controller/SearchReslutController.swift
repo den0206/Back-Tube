@@ -10,6 +10,7 @@ import UIKit
 import YoutubeKit
 import RealmSwift
 import GoogleMobileAds
+import PKHUD
 
 private let reuseIdentifer = "Cell"
 
@@ -250,6 +251,8 @@ extension SearchResultController {
                 if realm.objects(Favorite.self).count == 7 {
                     realm.delete(realm.objects(Favorite.self).first!)
                 }
+                
+                HUD.flash(.labeledSuccess(title: "お気に入り", subtitle: "追加しました"), delay: 1.0)
                             
                 print(Realm.Configuration.defaultConfiguration.fileURL!)
                 
@@ -259,7 +262,8 @@ extension SearchResultController {
             
             
         }
-        favoriteAction.backgroundColor = .blue
+        
+        favoriteAction.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
         
         let configuration = UISwipeActionsConfiguration(actions: [favoriteAction])
         

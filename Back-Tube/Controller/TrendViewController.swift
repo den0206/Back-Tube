@@ -80,6 +80,7 @@ class TrendViewController : UICollectionViewController {
             if self?.collectionView.numberOfSections == 3 {
                 if (self?.favotiteVideos.count)! > 0 {
                     self?.collectionView.insertSections(IndexSet(integer: 3))
+                    self?.collectionView.reloadSections(IndexSet(integer: 3))
                 }
             } else if self?.collectionView.numberOfSections == 4 {
                 if (self?.favotiteVideos.count)! == 0 {
