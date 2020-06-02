@@ -73,9 +73,20 @@ class TrendViewController : UICollectionViewController {
     private func  checkFavorite() {
         let realm = try! Realm()
         
-        
         favotiteVideos = realm.objects(Favorite.self).sorted(byKeyPath: "id", ascending: false)
-
+        token = favotiteVideos.observe({ [weak self] _ in
+            self?.sectionTitles = self!.getSectionTitles()
+            
+            if self?.collectionView.numberOfSections == 3 {
+                if (self?.favotiteVideos.count)! > 0 {
+                    self?.collectionView.insertSections(IndexSet(integer: 3))
+                }
+            } else if self?.collectionView.numberOfSections == 4 {
+                if (self?.favotiteVideos.count)! == 0 {
+                    self?.collectionView.deleteSections(IndexSet(integer: 3))
+                }
+            }
+        })
     }
     
     private func getSectionTitles() -> [String] {
