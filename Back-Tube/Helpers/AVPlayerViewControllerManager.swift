@@ -58,7 +58,9 @@ extension UIView {
                 self.controller.player = self.player
                 return
             }
-            self.player = AVPlayer(url: video.streamURL)
+            
+            guard let steramUrl = video.streamURL else {return}
+            self.player = AVPlayer(url: steramUrl)
             self.controller.player = self.player
         }
     }

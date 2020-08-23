@@ -85,6 +85,7 @@ class TrendViewController : UICollectionViewController {
             } else if self?.collectionView.numberOfSections == 4 {
                 if (self?.favotiteVideos.count)! == 0 {
                     self?.collectionView.deleteSections(IndexSet(integer: 3))
+                   
                 }
             }
         })
@@ -92,7 +93,7 @@ class TrendViewController : UICollectionViewController {
     
     private func getSectionTitles() -> [String] {
         if favotiteVideos.count > 0 {
-           return ["Favorite", "AllNight", "Junk", "Favorite"]
+           return ["Favorite", "AllNight", "Junk", "お気に入り"]
         }
         
         return ["Favorite", "AllNight", "Junk"]
